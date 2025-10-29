@@ -1,0 +1,125 @@
+/* Estilos generales */
+
+.box {
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    margin-bottom: 20px;
+}
+
+.box.box-solid {
+    border-top: 3px solid #10a65a;
+}
+
+
+/* Estilos para el carrusel */
+
+.carousel-container {
+    margin-bottom: 30px;
+}
+
+.carousel {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: auto;
+}
+
+
+/* Estilos para las tablas */
+
+.table-responsive {
+    border: none;
+}
+
+.table>thead>tr>th {
+    border-bottom: 2px solid #ddd;
+    background: #f9f9f9;
+}
+
+
+/* Estilos para el sidebar */
+
+#trending {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#trending li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f4f4f4;
+}
+
+#trending li:last-child {
+    border-bottom: none;
+}
+
+#trending li a {
+    color: #333;
+}
+
+#trending li a:hover {
+    color: #00a65a;
+    text-decoration: none;
+}
+
+
+/* Estilos para botones sociales */
+
+.btn-social-icon {
+    width: 35px;
+    height: 35px;
+    padding: 0;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 3px;
+    margin: 3px;
+    transition: opacity 0.3s ease;
+}
+
+.btn-social-icon:hover {
+    opacity: 0.8;
+}
+
+
+/* Estilos para productos */
+
+.product-card {
+    margin-bottom: 20px;
+}
+
+.product-card .box {
+    transition: box-shadow 0.3s ease;
+}
+
+.product-card .box:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .1);
+}
+
+.product-card .prod-body {
+    padding: 15px;
+    text-align: center;
+}
+
+.product-card img.thumbnail {
+    margin-bottom: 15px;
+}
+
+.badge {
+    padding: 5px 10px;
+    font-weight: normal;
+}
+
+
+/* Estilos responsive */
+
+@media (max-width: 768px) {
+    .carousel-container {
+        margin-bottom: 15px;
+    }
+    .product-card {
+        margin-bottom: 15px;
+    }
+}
