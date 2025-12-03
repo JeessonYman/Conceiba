@@ -1,0 +1,455 @@
+/* =====================================================
+   SISTEMA DE TEMAS - CONCEIBA
+   Modo Claro/Oscuro con soporte completo
+   Incluye personalización de date pickers
+   ===================================================== */
+
+/* Variables CSS para Tema Claro (Light Mode) */
+:root {
+  /* Colores principales */
+  --bg-primary: #f4f4f4;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f9f9f9;
+  
+  /* Colores de texto */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  
+  /* Borders y divisores */
+  --border-color: #e0e0e0;
+  --border-light: #f0f0f0;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
+  
+  /* Componentes */
+  --input-bg: #ffffff;
+  --input-border: #dddddd;
+  --table-header-bg: #f8f8f8;
+  --table-row-hover: #f5f5f5;
+  
+  /* Sidebar y Navbar */
+  --sidebar-bg: #222d32;
+  --sidebar-text: #b8c7ce;
+  --navbar-bg: #3c8dbc;
+  
+  /* Date Picker específico */
+  --datepicker-bg: #ffffff;
+  --datepicker-border: #dddddd;
+  --datepicker-header-bg: #3c8dbc;
+  --datepicker-header-text: #ffffff;
+  --datepicker-day-hover: #e6f2ff;
+  --datepicker-day-selected: #3c8dbc;
+  --datepicker-day-text: #333333;
+  --datepicker-disabled: #e9ecef;
+}
+
+/* Variables CSS para Tema Oscuro (Dark Mode) */
+[data-theme="dark"] {
+  /* Colores principales */
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2d2d2d;
+  --bg-tertiary: #242424;
+  
+  /* Colores de texto */
+  --text-primary: #e0e0e0;
+  --text-secondary: #b0b0b0;
+  --text-muted: #808080;
+  
+  /* Borders y divisores */
+  --border-color: #404040;
+  --border-light: #353535;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.5);
+  
+  /* Componentes */
+  --input-bg: #353535;
+  --input-border: #4a4a4a;
+  --table-header-bg: #2a2a2a;
+  --table-row-hover: #3a3a3a;
+  
+  /* Sidebar y Navbar mantienen los mismos colores */
+  --sidebar-bg: #1a2226;
+  --sidebar-text: #8aa4af;
+  --navbar-bg: #2c5f7c;
+  
+  /* Date Picker específico */
+  --datepicker-bg: #2d2d2d;
+  --datepicker-border: #4a4a4a;
+  --datepicker-header-bg: #2c5f7c;
+  --datepicker-header-text: #ffffff;
+  --datepicker-day-hover: #3a3a3a;
+  --datepicker-day-selected: #00a65a;
+  --datepicker-day-text: #e0e0e0;
+  --datepicker-disabled: #1f1f1f;
+}
+
+/* =====================================================
+   APLICACIÓN DEL TEMA A COMPONENTES GLOBALES
+   ===================================================== */
+
+/* Body y contenedores principales */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.content-wrapper {
+  background-color: var(--bg-primary);
+}
+
+.box {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.box-header {
+  background-color: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+/* Formularios e Inputs */
+.form-control {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+.form-control:focus {
+  background-color: var(--input-bg);
+  border-color: #00a65a;
+  color: var(--text-primary);
+}
+
+/* Tablas */
+.table {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.table thead {
+  background-color: var(--table-header-bg);
+  color: var(--text-primary);
+}
+
+.table tbody tr:hover {
+  background-color: var(--table-row-hover);
+}
+
+.table-bordered {
+  border-color: var(--border-color);
+}
+
+.table-bordered th,
+.table-bordered td {
+  border-color: var(--border-color);
+}
+
+/* Modales */
+.modal-content {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  background-color: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+  background-color: var(--bg-tertiary);
+  border-top: 1px solid var(--border-color);
+}
+
+/* =====================================================
+   DATE RANGE PICKER PERSONALIZADO
+   ===================================================== */
+
+/* Contenedor principal del daterangepicker */
+.daterangepicker {
+  background-color: var(--datepicker-bg) !important;
+  border: 1px solid var(--datepicker-border) !important;
+  box-shadow: var(--shadow-md) !important;
+  color: var(--datepicker-day-text) !important;
+}
+
+/* Calendario */
+.daterangepicker .calendar-table {
+  background-color: var(--datepicker-bg) !important;
+  border: 1px solid var(--datepicker-border) !important;
+}
+
+/* Encabezado del mes */
+.daterangepicker th.month {
+  background-color: var(--datepicker-header-bg) !important;
+  color: var(--datepicker-header-text) !important;
+}
+
+/* Días de la semana */
+.daterangepicker th {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-tertiary) !important;
+}
+
+/* Días del mes */
+.daterangepicker td {
+  color: var(--datepicker-day-text) !important;
+  background-color: var(--datepicker-bg) !important;
+}
+
+/* Hover en días */
+.daterangepicker td.available:hover,
+.daterangepicker th.available:hover {
+  background-color: var(--datepicker-day-hover) !important;
+  color: var(--datepicker-day-text) !important;
+}
+
+/* Día seleccionado */
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+  background-color: var(--datepicker-day-selected) !important;
+  color: #ffffff !important;
+}
+
+/* Rango de fechas seleccionado */
+.daterangepicker td.in-range {
+  background-color: var(--datepicker-day-hover) !important;
+  color: var(--datepicker-day-text) !important;
+}
+
+/* Días deshabilitados */
+.daterangepicker td.disabled,
+.daterangepicker option.disabled {
+  color: var(--text-muted) !important;
+  background-color: var(--datepicker-disabled) !important;
+}
+
+/* Selectores de mes y año */
+.daterangepicker select {
+  background-color: var(--input-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--input-border) !important;
+}
+
+/* Botones de navegación */
+.daterangepicker th.prev,
+.daterangepicker th.next {
+  color: var(--text-primary) !important;
+}
+
+.daterangepicker th.prev:hover,
+.daterangepicker th.next:hover {
+  background-color: var(--datepicker-day-hover) !important;
+}
+
+/* Ranges (predefinidos) */
+.daterangepicker .ranges {
+  background-color: var(--bg-tertiary) !important;
+  border-right: 1px solid var(--border-color) !important;
+}
+
+.daterangepicker .ranges li {
+  color: var(--text-primary) !important;
+  background-color: var(--bg-tertiary) !important;
+}
+
+.daterangepicker .ranges li:hover {
+  background-color: var(--datepicker-day-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+.daterangepicker .ranges li.active {
+  background-color: var(--datepicker-day-selected) !important;
+  color: #ffffff !important;
+}
+
+/* Botones del footer */
+.daterangepicker .drp-buttons {
+  background-color: var(--bg-tertiary) !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+
+/* Inputs dentro del daterangepicker */
+.daterangepicker .drp-calendar .calendar-time input {
+  background-color: var(--input-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--input-border) !important;
+}
+
+/* =====================================================
+   BOOTSTRAP DATEPICKER PERSONALIZADO
+   ===================================================== */
+
+/* Contenedor principal */
+.datepicker {
+  background-color: var(--datepicker-bg) !important;
+  border: 1px solid var(--datepicker-border) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* Encabezado */
+.datepicker .datepicker-switch,
+.datepicker .prev,
+.datepicker .next {
+  background-color: var(--datepicker-header-bg) !important;
+  color: var(--datepicker-header-text) !important;
+}
+
+.datepicker .datepicker-switch:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover {
+  background-color: var(--datepicker-day-hover) !important;
+}
+
+/* Días */
+.datepicker table tr td,
+.datepicker table tr th {
+  color: var(--datepicker-day-text) !important;
+}
+
+.datepicker table tr td.day:hover {
+  background-color: var(--datepicker-day-hover) !important;
+  color: var(--datepicker-day-text) !important;
+}
+
+.datepicker table tr td.active,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover {
+  background-color: var(--datepicker-day-selected) !important;
+  color: #ffffff !important;
+}
+
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover {
+  background-color: var(--datepicker-disabled) !important;
+  color: var(--text-muted) !important;
+}
+
+/* Días de otros meses */
+.datepicker table tr td.old,
+.datepicker table tr td.new {
+  color: var(--text-muted) !important;
+}
+
+/* =====================================================
+   BOTÓN TOGGLE DE TEMA
+   ===================================================== */
+
+.theme-toggle {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.theme-toggle i {
+  font-size: 16px;
+}
+
+/* =====================================================
+   AJUSTES ADICIONALES
+   ===================================================== */
+
+/* Breadcrumbs */
+.breadcrumb {
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+}
+
+.breadcrumb > li + li:before {
+  color: var(--text-muted);
+}
+
+/* Alerts */
+.alert {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+/* Paginación */
+.pagination > li > a,
+.pagination > li > span {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover {
+  background-color: var(--table-row-hover);
+  border-color: var(--border-color);
+}
+
+.pagination > .active > a,
+.pagination > .active > span {
+  background-color: #00a65a;
+  border-color: #00a65a;
+}
+
+/* Inputs con addon */
+.input-group-addon {
+  background-color: var(--bg-tertiary);
+  border-color: var(--input-border);
+  color: var(--text-primary);
+}
+
+/* Select2 (si se usa) */
+.select2-container--default .select2-selection--single {
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+}
+
+.select2-container--default .select2-results__option {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: var(--datepicker-day-hover);
+  color: var(--text-primary);
+}
+
+/* DataTables */
+.dataTables_wrapper {
+  color: var(--text-primary);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: var(--text-primary) !important;
+}
+
+/* Transiciones suaves */
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Evitar transiciones en elementos específicos */
+.sidebar-menu,
+.navbar,
+.main-sidebar {
+  transition: none !important;
+}

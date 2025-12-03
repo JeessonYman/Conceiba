@@ -85,3 +85,8 @@ function getCart(){
 	});
 }
 </script>
+
+<!-- ========================================== -->
+<!-- M.A.R.I.A - SISTEMA DE IA CON VOZ -->
+<!-- ========================================== -->
+<?php include 'includes/maria_interface.php'; ?>

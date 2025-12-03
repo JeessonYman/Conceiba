@@ -1,0 +1,128 @@
+<?php include 'includes/session.php'; ?>
+<?php include 'includes/header.php'; ?>
+
+<body class="hold-transition skin-green sidebar-mini">
+    <div class="wrapper">
+        <?php include 'includes/navbar.php'; ?>
+        <?php include 'includes/menubar.php'; ?>
+
+        <div class="content-wrapper">
+            <section class="content-header">
+                <h1>Control de Stock</h1>
+                <ol class="breadcrumb">
+                    <li><a href="home.php"><i class="fa fa-dashboard"></i> Casa</a></li>
+                    <li class="active">Control de Stock</li>
+                </ol>
+            </section>
+
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Productos y Niveles de Stock</h3>
+                                <div class="pull-right">
+                                    <button type="button" class="btn btn-warning btn-sm btn-flat" id="show-low-stock">
+                                        <i class="fa fa-exclamation-triangle"></i> Solo Stock Bajo
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <?php
+                                $conn = $pdo->open();
+                                try {
+                                    $stmt = $conn->prepare("SELECT p.*, c.name AS category_name 
+                                         FROM products p 
+                                         LEFT JOIN category c ON c.id = p.category_id 
+                                         ORDER BY p.stock ASC");
+                                    $stmt->execute();
+                                ?>
+                                    <table id="stock-table" class="table table-bordered">
+                                        <thead>
+                                            <th>Producto</th>
+                                            <th>Categoría</th>
+                                            <th>Stock Actual</th>
+                                            <th>Stock Mínimo</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            foreach ($stmt as $row) {
+                                                $stock_percentage = ($row['stock_minimum'] > 0) ? ($row['stock'] / $row['stock_minimum']) * 100 : 100;
+                                                $status_class = '';
+                                                $status_text = '';
+
+                                                if ($row['stock'] <= 0) {
+                                                    $status_class = 'danger';
+                                                    $status_text = 'Sin Stock';
+                                                } elseif ($row['stock'] < $row['stock_minimum']) {
+                                                    $status_class = 'warning';
+                                                    $status_text = 'Stock Bajo';
+                                                } else {
+                                                    $status_class = 'success';
+                                                    $status_text = 'Stock Normal';
+                                                }
+
+                                                echo "
+                        <tr class='stock-row' data-status='$status_class'>
+                          <td data-label='Producto'>" . $row['name'] . "</td>
+                          <td data-label='Categoría'>" . $row['category_name'] . "</td>
+                          <td data-label='Stock Actual'>
+                            <span class='badge bg-" . $status_class . "'>" . $row['stock'] . "</span>
+                          </td>
+                          <td data-label='Stock Mínimo'>" . $row['stock_minimum'] . "</td>
+                          <td data-label='Estado'>
+                            <span class='label label-" . $status_class . "'>" . $status_text . "</span>
+                          </td>
+                          <td data-label='Acciones'>
+                            <button type='button' class='btn btn-primary btn-sm btn-flat adjust-stock' data-id='" . $row['id'] . "'>
+                              <i class='fa fa-edit'></i> Ajustar
+                            </button>
+                          </td>
+                        </tr>
+                      ";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                <?php
+                                } catch (PDOException $e) {
+                                    echo $e->getMessage();
+                                }
+                                $pdo->close();
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <?php include 'includes/footer.php'; ?>
+    </div>
+    <?php include 'includes/scripts.php'; ?>
+    <script>
+        $(function() {
+            $('#show-low-stock').click(function() {
+                var rows = $('.stock-row');
+                if ($(this).hasClass('active')) {
+                    rows.show();
+                    $(this).removeClass('active');
+                    $(this).html('<i class="fa fa-exclamation-triangle"></i> Solo Stock Bajo');
+                } else {
+                    rows.each(function() {
+                        if ($(this).data('status') === 'danger' || $(this).data('status') === 'warning') {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                    $(this).addClass('active');
+                    $(this).html('<i class="fa fa-list"></i> Mostrar Todos');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

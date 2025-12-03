@@ -1,0 +1,828 @@
+/* ===========================
+   CSS ESPECÍFICO PARA PANEL ADMIN
+   Soluciona: DatePicker, Títulos, Responsive, Tablas, Menú Móvil
+   =========================== */
+
+/* ===========================
+   FIX NAVBAR Y SIDEBAR EN SCROLL MÓVIL
+   =========================== */
+
+/* Header fijo que no se mueve al hacer scroll */
+.main-header {
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    z-index: 1030 !important;
+}
+
+/* Logo fijo */
+.main-header .logo {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 1031 !important;
+}
+
+/* Sidebar fijo */
+.main-sidebar {
+    position: fixed !important;
+    top: 50px !important;
+    height: calc(100vh - 50px) !important;
+    overflow-y: auto !important;
+    z-index: 1020 !important;
+}
+
+/* Content wrapper con margen superior */
+.content-wrapper {
+    margin-top: 50px !important;
+    min-height: calc(100vh - 50px) !important;
+}
+
+/* Fix para móviles - sidebar overlay */
+@media (max-width: 767px) {
+    .main-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+    }
+    
+    body:not(.sidebar-collapse) .main-sidebar {
+        transform: translateX(0);
+    }
+    
+    /* Overlay cuando el sidebar está abierto */
+    body:not(.sidebar-collapse)::before {
+        content: "";
+        position: fixed;
+        top: 50px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1010;
+    }
+}
+
+/* ===========================
+   FIX DESPLEGABLES DEL MENÚ (TREEVIEW)
+   =========================== */
+
+.sidebar-menu .treeview-menu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.sidebar-menu .treeview.active > .treeview-menu {
+    display: block !important;
+}
+
+.sidebar-menu .treeview-menu > li {
+    margin: 0;
+}
+
+.sidebar-menu .treeview-menu > li > a {
+    padding: 10px 5px 10px 25px !important;
+    display: block;
+    color: #b8c7ce;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu .treeview-menu > li > a:hover {
+    background-color: rgba(0,0,0,0.15);
+    color: #fff;
+}
+
+.sidebar-menu .treeview-menu > li > a > .fa {
+    width: 20px;
+}
+
+/* Flecha del desplegable */
+.sidebar-menu .treeview > a > .pull-right-container > .fa-angle-left {
+    transition: transform 0.3s ease;
+}
+
+.sidebar-menu .treeview.active > a > .pull-right-container > .fa-angle-left {
+    transform: rotate(-90deg);
+}
+
+/* Fix altura mínima para desplegables */
+.sidebar-menu .treeview-menu {
+    min-height: auto !important;
+    overflow: visible !important;
+}
+
+/* Asegurar que los items sean clickeables */
+.sidebar-menu .treeview > a {
+    cursor: pointer;
+    /* Evitar selección de texto en la UI del menú: añadir prefijos para compatibilidad */
+    -webkit-user-select: none; /* Safari/Chrome */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE/Edge */
+    user-select: none;         /* Estándar */
+}
+
+/* ===========================
+   MEJORAR ESPACIADO EN MÓVILES
+   =========================== */
+
+@media (max-width: 767px) {
+    /* Sidebar más ancho en móviles para mejor lectura */
+    .main-sidebar {
+        width: 250px !important;
+    }
+    
+    /* Items del menú con mejor espaciado */
+    .sidebar-menu > li > a {
+        padding: 12px 10px !important;
+        font-size: 14px !important;
+    }
+    
+    .sidebar-menu .treeview-menu > li > a {
+        padding: 10px 5px 10px 30px !important;
+        font-size: 13px !important;
+    }
+    
+    /* Headers más visibles */
+    .sidebar-menu .header {
+        padding: 10px 10px !important;
+        font-size: 11px !important;
+        font-weight: bold;
+    }
+    
+    /* User panel responsive */
+    .user-panel {
+        padding: 10px !important;
+    }
+    
+    .user-panel > .info {
+        padding: 5px 5px 5px 10px !important;
+    }
+    
+    .user-panel > .info > p {
+        font-size: 13px !important;
+        margin-bottom: 5px;
+    }
+}
+
+/* ===========================
+   SCROLL SUAVE EN SIDEBAR
+   =========================== */
+
+.main-sidebar {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+}
+
+.main-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.main-sidebar::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+.main-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.3);
+    border-radius: 3px;
+}
+
+.main-sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.5);
+}
+
+/* ===========================
+   1. FIX DATEPICKER - CALENDARIO
+   =========================== */
+
+/* DatePicker en modo claro */
+.daterangepicker {
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+}
+
+.daterangepicker td,
+.daterangepicker th {
+    color: #333 !important;
+    background-color: #fff !important;
+}
+
+.daterangepicker td.active,
+.daterangepicker td.active:hover {
+    background-color: #00a65a !important;
+    color: #fff !important;
+}
+
+.daterangepicker td.in-range {
+    background-color: #e8f5e9 !important;
+    color: #333 !important;
+}
+
+.daterangepicker .calendar-table {
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+}
+
+.daterangepicker .calendar-table thead tr th {
+    background-color: #f4f4f4 !important;
+    color: #333 !important;
+}
+
+.daterangepicker select {
+    background-color: #fff !important;
+    color: #333 !important;
+    border: 1px solid #ddd !important;
+}
+
+.daterangepicker .ranges li {
+    background-color: #f5f5f5 !important;
+    color: #333 !important;
+}
+
+.daterangepicker .ranges li:hover {
+    background-color: #00a65a !important;
+    color: #fff !important;
+}
+
+.daterangepicker .ranges li.active {
+    background-color: #00a65a !important;
+    color: #fff !important;
+}
+
+/* DatePicker en modo oscuro */
+[data-theme="dark"] .daterangepicker {
+    background-color: #2d2d2d !important;
+    border: 1px solid #404040 !important;
+}
+
+[data-theme="dark"] .daterangepicker td,
+[data-theme="dark"] .daterangepicker th {
+    color: #fff !important;
+    background-color: #2d2d2d !important;
+}
+
+[data-theme="dark"] .daterangepicker td.active,
+[data-theme="dark"] .daterangepicker td.active:hover {
+    background-color: #00a65a !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .daterangepicker td.in-range {
+    background-color: #1a4d2e !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .daterangepicker .calendar-table {
+    background-color: #2d2d2d !important;
+    border: 1px solid #404040 !important;
+}
+
+[data-theme="dark"] .daterangepicker .calendar-table thead tr th {
+    background-color: #1a1a1a !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .daterangepicker select {
+    background-color: #333 !important;
+    color: #fff !important;
+    border: 1px solid #404040 !important;
+}
+
+[data-theme="dark"] .daterangepicker .ranges li {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .daterangepicker .ranges li:hover {
+    background-color: #00a65a !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .daterangepicker .ranges li.active {
+    background-color: #00a65a !important;
+    color: #fff !important;
+}
+
+/* ===========================
+   2. FIX TÍTULOS H1 - MODO CLARO/OSCURO
+   =========================== */
+
+/* Títulos en modo claro */
+.content-header > h1 {
+    color: #333 !important;
+}
+
+.box-title {
+    color: #333 !important;
+}
+
+.content-header .breadcrumb > li > a {
+    color: #337ab7 !important;
+}
+
+/* Títulos en modo oscuro */
+[data-theme="dark"] .content-header > h1 {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .box-title {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .content-header .breadcrumb {
+    background-color: #2d2d2d !important;
+}
+
+[data-theme="dark"] .content-header .breadcrumb > li > a {
+    color: #00d475 !important;
+}
+
+[data-theme="dark"] .content-header .breadcrumb > .active {
+    color: #ccc !important;
+}
+
+/* ===========================
+   3. FIX TABLAS - BORDES ADAPTATIVOS
+   =========================== */
+
+/* Tablas en modo claro */
+.table-bordered {
+    border: 1px solid #ddd !important;
+}
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+    border: 1px solid #ddd !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f9f9f9 !important;
+}
+
+.table > thead > tr > th {
+    background-color: #f4f4f4 !important;
+    color: #333 !important;
+}
+
+/* Tablas en modo oscuro */
+[data-theme="dark"] .table-bordered {
+    border: 1px solid #404040 !important;
+}
+
+[data-theme="dark"] .table-bordered > thead > tr > th,
+[data-theme="dark"] .table-bordered > tbody > tr > th,
+[data-theme="dark"] .table-bordered > tfoot > tr > th,
+[data-theme="dark"] .table-bordered > thead > tr > td,
+[data-theme="dark"] .table-bordered > tbody > tr > td,
+[data-theme="dark"] .table-bordered > tfoot > tr > td {
+    border: 1px solid #404040 !important;
+    background-color: #2d2d2d !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #252525 !important;
+}
+
+[data-theme="dark"] .table > thead > tr > th {
+    background-color: #1a1a1a !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .table > tbody > tr > td {
+    color: #fff !important;
+}
+
+/* ===========================
+   4. RESPONSIVE - MÓVILES (hasta 767px)
+   =========================== */
+
+@media (max-width: 767px) {
+    /* Tablas responsivas */
+    .table-responsive {
+        border: 0;
+        margin-bottom: 15px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Formulario de impresión */
+    .box-header .form-inline {
+        display: block !important;
+        width: 100%;
+    }
+    
+    .box-header .form-inline .input-group {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+    
+    .box-header .form-inline .btn {
+        width: 100% !important;
+        margin-top: 10px;
+    }
+    
+    /* DatePicker responsive */
+    .daterangepicker {
+        width: 90% !important;
+        left: 5% !important;
+        right: 5% !important;
+    }
+    
+    .daterangepicker .ranges {
+        width: 100% !important;
+    }
+    
+    .daterangepicker .calendar {
+        width: 100% !important;
+    }
+    
+    /* Títulos responsivos */
+    .content-header > h1 {
+        font-size: 20px !important;
+        margin: 10px 0 !important;
+    }
+    
+    .box-title {
+        font-size: 16px !important;
+    }
+    
+    /* Breadcrumb responsive */
+    .breadcrumb {
+        padding: 8px 10px !important;
+        font-size: 11px !important;
+    }
+    
+    .breadcrumb > li {
+        display: inline-block;
+    }
+    
+    /* Botones responsive */
+    .btn-flat {
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+    }
+    
+    /* Box header buttons */
+    .box-header .btn {
+        margin-bottom: 10px;
+    }
+    
+    /* DataTables responsive */
+    #example1_wrapper .dataTables_filter {
+        text-align: center !important;
+        margin-bottom: 10px;
+    }
+    
+    #example1_wrapper .dataTables_length {
+        text-align: center !important;
+        margin-bottom: 10px;
+    }
+    
+    #example1_wrapper .dataTables_info {
+        text-align: center !important;
+    }
+    
+    #example1_wrapper .dataTables_paginate {
+        text-align: center !important;
+        margin-top: 10px;
+    }
+    
+    /* Tabla con scroll horizontal */
+    .table {
+        min-width: 600px;
+    }
+}
+
+/* ===========================
+   5. RESPONSIVE - TABLETS (768px - 991px)
+   =========================== */
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .content-header > h1 {
+        font-size: 24px !important;
+    }
+    
+    .box-title {
+        font-size: 17px !important;
+    }
+    
+    .box-header .form-inline {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .box-header .form-inline .input-group {
+        width: auto;
+        flex: 1;
+    }
+    
+    .daterangepicker {
+        width: 70% !important;
+        left: 15% !important;
+    }
+    
+    .table {
+        font-size: 13px;
+    }
+}
+
+/* ===========================
+   6. RESPONSIVE - TABLETS LANDSCAPE (768px - 1024px)
+   =========================== */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .content-wrapper {
+        padding: 15px;
+    }
+    
+    .box {
+        margin-bottom: 20px;
+    }
+    
+    .daterangepicker {
+        width: 60% !important;
+        left: 20% !important;
+    }
+}
+
+/* ===========================
+   7. RESPONSIVE - DESKTOP (992px - 1199px)
+   =========================== */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .content-header > h1 {
+        font-size: 26px !important;
+    }
+    
+    .box-title {
+        font-size: 18px !important;
+    }
+    
+    .daterangepicker {
+        width: 50% !important;
+        left: 25% !important;
+    }
+}
+
+/* ===========================
+   8. RESPONSIVE - DESKTOP GRANDE (1200px+)
+   =========================== */
+
+@media (min-width: 1200px) {
+    .content-header > h1 {
+        font-size: 28px !important;
+    }
+    
+    .box-title {
+        font-size: 18px !important;
+    }
+    
+    .table {
+        font-size: 14px;
+    }
+    
+    .daterangepicker {
+        width: 600px !important;
+    }
+}
+
+/* ===========================
+   9. RESPONSIVE - TVS (1920px+)
+   =========================== */
+
+@media (min-width: 1920px) {
+    .content-header > h1 {
+        font-size: 32px !important;
+    }
+    
+    .box-title {
+        font-size: 20px !important;
+    }
+    
+    .table {
+        font-size: 16px;
+    }
+    
+    .breadcrumb {
+        font-size: 14px !important;
+    }
+}
+
+/* ===========================
+   10. ORIENTACIÓN LANDSCAPE MÓVIL
+   =========================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .content-header > h1 {
+        font-size: 18px !important;
+        margin: 5px 0 !important;
+    }
+    
+    .breadcrumb {
+        padding: 5px 10px !important;
+        font-size: 10px !important;
+    }
+    
+    .box {
+        margin-bottom: 10px;
+    }
+    
+    .box-header {
+        padding: 10px;
+    }
+    
+    .daterangepicker {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+/* ===========================
+   11. SELECT2 ADAPTATIVO
+   =========================== */
+
+.select2-container--default .select2-selection--single {
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #333 !important;
+}
+
+[data-theme="dark"] .select2-container--default .select2-selection--single {
+    background-color: #333 !important;
+    border: 1px solid #404040 !important;
+}
+
+[data-theme="dark"] .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .select2-dropdown {
+    background-color: #2d2d2d !important;
+    border: 1px solid #404040 !important;
+}
+
+[data-theme="dark"] .select2-container--default .select2-results__option {
+    background-color: #2d2d2d !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #00a65a !important;
+}
+
+/* ===========================
+   12. MODALES ADAPTATIVOS
+   =========================== */
+
+@media (max-width: 767px) {
+    .modal-dialog {
+        margin: 10px !important;
+        width: calc(100% - 20px) !important;
+    }
+    
+    .modal-body {
+        padding: 15px !important;
+    }
+    
+    .modal-header,
+    .modal-footer {
+        padding: 10px 15px !important;
+    }
+    
+    .modal-title {
+        font-size: 16px !important;
+    }
+}
+
+/* ===========================
+   13. FORMULARIOS ADAPTATIVOS
+   =========================== */
+
+@media (max-width: 767px) {
+    .form-group {
+        margin-bottom: 10px;
+    }
+    
+    .form-control {
+        font-size: 14px;
+        height: 36px;
+    }
+    
+    label {
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+}
+
+/* ===========================
+   14. BOX ADAPTATIVO
+   =========================== */
+
+.box {
+    border-radius: 3px;
+    margin-bottom: 20px;
+}
+
+[data-theme="dark"] .box {
+    background-color: #2d2d2d !important;
+    border: 1px solid #404040 !important;
+}
+
+[data-theme="dark"] .box-header {
+    background-color: #2d2d2d !important;
+    border-bottom: 1px solid #404040 !important;
+}
+
+/* ===========================
+   15. ALERTAS ADAPTATIVAS
+   =========================== */
+
+[data-theme="dark"] .alert {
+    background-color: #2d2d2d !important;
+    border: 1px solid #404040 !important;
+    color: #fff !important;
+}
+
+[data-theme="dark"] .alert-success {
+    background-color: #1a4d2e !important;
+    border-color: #00a65a !important;
+    color: #00ff8c !important;
+}
+
+[data-theme="dark"] .alert-danger {
+    background-color: #4d1a1a !important;
+    border-color: #dd4b39 !important;
+    color: #ff6b6b !important;
+}
+
+[data-theme="dark"] .alert-warning {
+    background-color: #4d3d1a !important;
+    border-color: #f39c12 !important;
+    color: #ffc107 !important;
+}
+
+[data-theme="dark"] .alert-info {
+    background-color: #1a3d4d !important;
+    border-color: #00c0ef !important;
+    color: #00e5ff !important;
+}
+
+/* ===========================
+   16. TRANSICIONES SUAVES
+   =========================== */
+
+.table,
+.box,
+.form-control,
+.btn,
+.daterangepicker,
+h1,
+.breadcrumb {
+    transition: all 0.3s ease;
+}
+
+/* ===========================
+   17. PRINT STYLES
+   =========================== */
+
+@media print {
+    .daterangepicker,
+    .box-tools,
+    .btn,
+    .breadcrumb,
+    .main-sidebar,
+    .main-header {
+        display: none !important;
+    }
+    
+    .content-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .box {
+        border: 1px solid #000 !important;
+        page-break-inside: avoid;
+    }
+    
+    .table {
+        border-collapse: collapse !important;
+    }
+    
+    .table th,
+    .table td {
+        border: 1px solid #000 !important;
+        padding: 5px !important;
+    }
+}

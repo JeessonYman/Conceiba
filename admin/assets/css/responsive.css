@@ -1,0 +1,608 @@
+/* =====================================================
+   DISEÑO RESPONSIVE GLOBAL - CONCEIBA
+   Adaptado para todos los dispositivos y orientaciones
+   ===================================================== */
+
+/* =====================================================
+   UTILIDADES GENERALES
+   ===================================================== */
+
+/* Ocultar/Mostrar por tamaño de pantalla */
+.hidden-mobile {
+    display: block;
+}
+
+.visible-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .hidden-mobile {
+        display: none !important;
+    }
+
+    .visible-mobile {
+        display: block !important;
+    }
+}
+
+/* =====================================================
+   MÓVILES (320px - 480px)
+   Portrait y Landscape
+   ===================================================== */
+
+@media only screen and (max-width: 480px) {
+
+    /* Body y contenedores */
+    body {
+        font-size: 14px;
+    }
+
+    .content-wrapper {
+        padding: 10px;
+        margin-left: 0 !important;
+    }
+
+    /* Boxes y cards */
+    .box {
+        margin-bottom: 15px;
+        border-radius: 6px;
+    }
+
+    .box-header {
+        padding: 10px;
+    }
+
+    .box-body {
+        padding: 10px;
+    }
+
+    /* Botones */
+    .btn {
+        padding: 8px 12px;
+        font-size: 13px;
+        margin-bottom: 5px;
+    }
+
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+
+    /* Formularios */
+    .form-control {
+        font-size: 16px;
+        /* Prevenir zoom en iOS */
+        padding: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    /* Forms inline a block */
+    .form-inline {
+        display: block !important;
+    }
+
+    .form-inline .form-group {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .form-inline .input-group {
+        width: 100%;
+    }
+
+    .form-inline .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Tablas - Vista móvil en cards */
+    .table-responsive {
+        border: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+        border: 0;
+        font-size: 13px;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tbody tr {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 10px;
+        background-color: var(--bg-secondary);
+    }
+
+    .table tbody td {
+        display: block;
+        text-align: right;
+        padding: 8px 10px;
+        border: none;
+        position: relative;
+        padding-left: 50%;
+    }
+
+    .table tbody td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        font-weight: 600;
+        text-align: left;
+    }
+
+    .table tbody td.hidden {
+        display: none;
+    }
+
+    /* Headers de sección */
+    .content-header h1 {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .breadcrumb {
+        font-size: 12px;
+        padding: 8px 10px;
+        margin-bottom: 10px;
+    }
+
+    /* Modales */
+    .modal-dialog {
+        margin: 10px;
+        width: calc(100% - 20px);
+    }
+
+    .modal-header {
+        padding: 15px;
+    }
+
+    .modal-body {
+        padding: 15px;
+    }
+
+    .modal-footer {
+        padding: 15px;
+    }
+
+    /* Date pickers */
+    .daterangepicker {
+        width: 100% !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .input-group .form-control {
+        width: 100%;
+        border-radius: 4px 4px 0 0;
+    }
+
+    .input-group-addon {
+        width: 100%;
+        border-radius: 0 0 4px 4px;
+    }
+
+    /* Navbar */
+    .navbar {
+        padding: 0;
+    }
+
+    .navbar-custom-menu {
+        float: none !important;
+        margin: 0;
+    }
+
+    .navbar-nav>li {
+        float: none;
+        display: block;
+    }
+
+    /* Alerts */
+    .alert {
+        padding: 10px;
+        font-size: 13px;
+    }
+}
+
+/* Landscape para móviles */
+@media only screen and (max-width: 896px) and (orientation: landscape) {
+    .content-header {
+        padding: 10px 15px;
+    }
+
+    .content-header h1 {
+        font-size: 20px;
+    }
+}
+
+/* =====================================================
+   TABLETAS (481px - 768px)
+   Portrait y Landscape
+   ===================================================== */
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+
+    .content-wrapper {
+        padding: 15px;
+        margin-left: 0 !important;
+    }
+
+    .box {
+        margin-bottom: 20px;
+    }
+
+    .box-header {
+        padding: 12px 15px;
+    }
+
+    .box-body {
+        padding: 15px;
+    }
+
+    /* Tablas - Responsive con scroll horizontal */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+        white-space: nowrap;
+    }
+
+    /* Formularios */
+    .form-control {
+        font-size: 15px;
+    }
+
+    /* Grids */
+    .col-sm-6 {
+        width: 50%;
+    }
+
+    .col-sm-12 {
+        width: 100%;
+    }
+
+    /* Botones */
+    .btn {
+        padding: 9px 14px;
+        font-size: 14px;
+    }
+
+    /* Date pickers */
+    .daterangepicker {
+        max-width: 90vw !important;
+    }
+}
+
+/* Tabletas landscape */
+@media only screen and (min-width: 481px) and (max-width: 1024px) and (orientation: landscape) {
+    .content-wrapper {
+        margin-left: 230px !important;
+    }
+
+    .main-sidebar {
+        width: 230px;
+    }
+}
+
+/* =====================================================
+   PORTÁTILES (769px - 1024px)
+   ===================================================== */
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    body {
+        font-size: 14px;
+    }
+
+    .content-wrapper {
+        padding: 20px;
+        margin-left: 230px;
+    }
+
+    .box {
+        margin-bottom: 20px;
+    }
+
+    .table {
+        font-size: 13px;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+}
+
+/* =====================================================
+   ORDENADORES (1025px - 1920px)
+   Layout estándar
+   ===================================================== */
+
+@media only screen and (min-width: 1025px) and (max-width: 1920px) {
+    body {
+        font-size: 14px;
+    }
+
+    .content-wrapper {
+        padding: 20px 30px;
+        margin-left: 230px;
+    }
+
+    .box {
+        margin-bottom: 25px;
+    }
+
+    .table {
+        font-size: 14px;
+    }
+
+    .table th,
+    .table td {
+        padding: 10px;
+    }
+}
+
+/* =====================================================
+   TVS Y PANTALLAS GRANDES (1921px+)
+   ===================================================== */
+
+@media only screen and (min-width: 1921px) {
+    body {
+        font-size: 16px;
+    }
+
+    .content-wrapper {
+        max-width: 1800px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 30px 40px;
+    }
+
+    .main-sidebar {
+        width: 280px;
+    }
+
+    .content-wrapper {
+        margin-left: 280px;
+    }
+
+    .box {
+        margin-bottom: 30px;
+    }
+
+    .box-header {
+        padding: 20px;
+    }
+
+    .box-body {
+        padding: 25px;
+    }
+
+    .table {
+        font-size: 16px;
+    }
+
+    .table th,
+    .table td {
+        padding: 15px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .form-control {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .content-header h1 {
+        font-size: 32px;
+    }
+}
+
+/* =====================================================
+   SIDEBAR RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+    /* Ocultar sidebar por defecto en móvil */
+    .main-sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        width: 80%;
+        max-width: 300px;
+        z-index: 1050;
+        transition: left 0.3s ease;
+    }
+
+    /* Mostrar sidebar cuando está abierto */
+    .sidebar-open .main-sidebar {
+        left: 0;
+    }
+
+    /* Overlay cuando el sidebar está abierto */
+    .sidebar-open::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+    }
+
+    /* Ajustar content wrapper */
+    .content-wrapper {
+        margin-left: 0 !important;
+    }
+
+    /* Toggle button para móvil */
+    .navbar-toggle {
+        display: block !important;
+        float: left;
+        padding: 9px 10px;
+        margin-top: 8px;
+        margin-right: 15px;
+        margin-bottom: 8px;
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 4px;
+    }
+
+    .navbar-toggle .icon-bar {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background-color: #ffffff;
+        border-radius: 1px;
+    }
+
+    .navbar-toggle .icon-bar+.icon-bar {
+        margin-top: 4px;
+    }
+}
+
+/* =====================================================
+   UTILIDADES ADICIONALES
+   ===================================================== */
+
+/* Espaciado responsive */
+.mt-mobile {
+    margin-top: 15px;
+}
+
+@media (min-width: 769px) {
+    .mt-mobile {
+        margin-top: 0;
+    }
+}
+
+/* Texto centrado en móvil */
+.text-center-mobile {
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .text-center-mobile {
+        text-align: center;
+    }
+}
+
+/* Ancho completo en móvil */
+.full-width-mobile {
+    width: auto;
+}
+
+@media (max-width: 768px) {
+    .full-width-mobile {
+        width: 100%;
+        display: block;
+    }
+}
+
+/* =====================================================
+   MEJORAS DE PERFORMANCE Y UX
+   ===================================================== */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Touch optimization */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Aumentar áreas táctiles */
+    button,
+    a,
+    input[type="submit"],
+    input[type="button"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Eliminar hover effects en touch devices */
+    .btn:hover,
+    a:hover {
+        opacity: 1;
+    }
+}
+
+/* Prevenir zoom en inputs en iOS */
+@supports (-webkit-touch-callout: none) {
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* Optimización para impresión */
+@media print {
+
+    .main-sidebar,
+    .navbar,
+    .breadcrumb,
+    .btn,
+    .no-print {
+        display: none !important;
+    }
+
+    .content-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .box {
+        border: 1px solid #000;
+        page-break-inside: avoid;
+    }
+}

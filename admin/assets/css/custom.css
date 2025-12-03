@@ -1,0 +1,1378 @@
+/* ===========================
+   TEMA CLARO/OSCURO
+   =========================== */
+
+:root {
+    --primary-bg: #fff;
+    --secondary-bg: #f4f4f4;
+    --primary-text: #333;
+    --secondary-text: #666;
+    --border-color: #ddd;
+    --header-bg: #00a65a;
+    --header-text: #fff;
+    --sidebar-bg: #222d32;
+    --sidebar-text: #b8c7ce;
+    --hover-bg: #1e282c;
+    --box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    /* Variables adicionales para páginas principales */
+    --card-bg: #fff;
+    --nav-bg: #fff;
+    --nav-text: #333;
+    --footer-bg: #f8f9fa;
+    --footer-text: #333;
+    --link-color: #00a65a;
+    --link-hover: #008d4c;
+    --product-card-bg: #fff;
+    --input-bg: #fff;
+    --input-text: #333;
+    --btn-primary-bg: #00a65a;
+    --btn-primary-text: #fff;
+}
+
+[data-theme="dark"] {
+    --primary-bg: #1a1a1a;
+    --secondary-bg: #2d2d2d;
+    --primary-text: #fff;
+    --secondary-text: #ccc;
+    --border-color: #404040;
+    --header-bg: #004d2a;
+    --header-text: #fff;
+    --sidebar-bg: #121212;
+    --sidebar-text: #888;
+    --hover-bg: #383838;
+    --box-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+    /* Variables adicionales para páginas principales en modo oscuro */
+    --card-bg: #2d2d2d;
+    --nav-bg: #1a1a1a;
+    --nav-text: #fff;
+    --footer-bg: #1a1a1a;
+    --footer-text: #fff;
+    --link-color: #00d475;
+    --link-hover: #00ff8c;
+    --product-card-bg: #2d2d2d;
+    --input-bg: #333;
+    --input-text: #fff;
+    --btn-primary-bg: #00a65a;
+    --btn-primary-text: #fff;
+}
+
+/* ===========================
+   ESTILOS GENERALES
+   =========================== */
+
+body {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+.content-wrapper {
+    background-color: var(--secondary-bg);
+}
+
+.box {
+    background-color: var(--primary-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+}
+
+.box-header {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+/* ===========================
+   SIDEBAR
+   =========================== */
+
+.main-sidebar {
+    background-color: var(--sidebar-bg);
+}
+
+.sidebar-menu>li>a {
+    color: var(--sidebar-text);
+}
+
+.sidebar-menu>li:hover>a,
+.sidebar-menu>li.active>a {
+    background-color: var(--hover-bg);
+    color: var(--header-text);
+}
+
+/* ===========================
+   NAVBAR
+   =========================== */
+
+.main-header .navbar {
+    background-color: var(--header-bg);
+}
+
+.main-header .logo {
+    background-color: var(--header-bg);
+    color: var(--header-text);
+}
+
+/* ===========================
+   TABLAS
+   =========================== */
+
+.table-bordered {
+    border-color: var(--border-color);
+}
+
+.table-bordered>thead>tr>th,
+.table-bordered>tbody>tr>td {
+    border-color: var(--border-color);
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+/* ===========================
+   MODALES
+   =========================== */
+
+.modal-content {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+.modal-header,
+.modal-footer {
+    border-color: var(--border-color);
+}
+
+/* ===========================
+   FORMULARIOS
+   =========================== */
+
+.form-control {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    border-color: var(--border-color);
+}
+
+.form-control:focus {
+    border-color: var(--header-bg);
+}
+
+/* ===========================
+   BOTÓN DE ALTERNAR TEMA
+   =========================== */
+
+.theme-switch {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ===========================
+   MEJORAS DE ACCESIBILIDAD
+   =========================== */
+
+.btn:focus,
+.form-control:focus {
+    outline: 2px solid var(--header-bg);
+    outline-offset: 2px;
+}
+
+/* ===========================
+   ANIMACIONES SUAVES
+   =========================== */
+
+.sidebar-menu>li>a,
+.btn,
+.form-control,
+body {
+    transition: all 0.3s ease;
+}
+
+/* ===========================
+   ESTILOS PARA PÁGINAS PRINCIPALES
+   =========================== */
+
+.navbar {
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
+}
+
+.navbar-nav .nav-link {
+    color: var(--nav-text);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--link-hover);
+}
+
+.card {
+    background-color: var(--card-bg);
+    color: var(--primary-text);
+    border-color: var(--border-color);
+}
+
+.product-card {
+    background-color: var(--product-card-bg);
+    color: var(--primary-text);
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow);
+}
+
+.btn-primary {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border-color: var(--btn-primary-bg);
+}
+
+.btn-primary:hover {
+    background-color: var(--link-hover);
+    border-color: var(--link-hover);
+}
+
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+}
+
+a {
+    color: var(--link-color);
+}
+
+a:hover {
+    color: var(--link-hover);
+}
+
+.category-card {
+    background-color: var(--card-bg);
+    color: var(--primary-text);
+    border-color: var(--border-color);
+}
+
+.contact-form {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+}
+
+.product-details {
+    background-color: var(--card-bg);
+    color: var(--primary-text);
+}
+
+.product-image {
+    border-color: var(--border-color);
+}
+
+.alert {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+    color: var(--primary-text);
+}
+
+/* ===========================
+   RESPONSIVE - HEADER FIJO
+   =========================== */
+
+/* HEADER COMPLETAMENTE FIJO - NO SE MUEVE */
+.main-header {
+    position: fixed !important;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 1030 !important;
+    display: flex !important;
+    transition: none !important;
+}
+
+/* LOGO - SIEMPRE VISIBLE Y FIJO */
+.main-header .logo {
+    position: relative !important;
+    display: block !important;
+    float: none !important;
+    z-index: 1031 !important;
+}
+
+/* NAVBAR - OCUPA EL RESTO DEL ESPACIO */
+.main-header .navbar {
+    position: relative !important;
+    width: 100% !important;
+    margin: 0 !important;
+    float: none !important;
+}
+
+.content-wrapper {
+    margin-top: 50px !important;
+    margin-left: 230px !important;
+}
+
+.main-sidebar {
+    margin-top: 50px !important;
+    position: fixed !important;
+    height: calc(100% - 50px) !important;
+    width: 230px;
+}
+
+/* Cuando el sidebar está colapsado */
+.sidebar-collapse .content-wrapper {
+    margin-left: 50px !important;
+}
+
+.sidebar-mini.sidebar-collapse .main-sidebar {
+    width: 50px !important;
+}
+
+.navbar-fixed-top {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ===========================
+   RESPONSIVE - MÓVILES (hasta 767px)
+   =========================== */
+
+@media (max-width: 767px) {
+    /* Navbar - FIX PARA EVITAR DIVISIÓN */
+    .main-header {
+        display: flex !important;
+        position: fixed !important;
+        width: 100% !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    .main-header .logo {
+        position: relative !important;
+        width: 50px !important;
+        flex-shrink: 0 !important;
+    }
+    
+    .main-header .navbar {
+        position: relative !important;
+        width: calc(100% - 50px) !important;
+        margin: 0 !important;
+        left: 0 !important;
+    }
+    
+    .main-sidebar {
+        padding-top: 0;
+    }
+    
+    .content-wrapper {
+        padding-top: 10px;
+        margin-left: 0 !important;
+        margin-top: 50px !important;
+    }
+    
+    .main-header .logo-mini {
+        display: block !important;
+    }
+    
+    .main-header .logo-lg {
+        display: none !important;
+    }
+    
+    /* Usuario en navbar */
+    .navbar-custom-menu .user-menu > a {
+        padding: 15px 10px;
+    }
+    
+    .navbar-custom-menu .user-image {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .navbar-custom-menu .hidden-xs {
+        display: none !important;
+    }
+    
+    /* Sidebar */
+    .main-sidebar {
+        width: 180px;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    
+    body:not(.sidebar-collapse) .main-sidebar {
+        transform: translateX(0);
+    }
+    
+    .sidebar-menu > li > a {
+        padding: 10px 5px;
+        font-size: 13px;
+    }
+    
+    .sidebar-menu .fa {
+        font-size: 14px;
+    }
+    
+    .sidebar-collapse .content-wrapper {
+        margin-left: 0;
+    }
+    
+    /* Cajas pequeñas */
+    .small-box {
+        margin-bottom: 15px;
+    }
+    
+    .small-box h3 {
+        font-size: 24px !important;
+        margin: 0 0 10px 0;
+    }
+    
+    .small-box p {
+        font-size: 11px !important;
+    }
+    
+    .small-box .icon {
+        font-size: 60px;
+        top: 10px;
+    }
+    
+    /* Gráficos */
+    .box {
+        margin-bottom: 15px;
+    }
+    
+    .box-title {
+        font-size: 14px !important;
+    }
+    
+    .box-header {
+        padding: 10px;
+    }
+    
+    canvas {
+        max-height: 250px !important;
+    }
+    
+    /* Tablas */
+    .table-responsive {
+        border: 0;
+        margin-bottom: 0;
+    }
+    
+    .table {
+        font-size: 12px;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px;
+    }
+    
+    /* Formularios */
+    .form-control {
+        font-size: 13px;
+        height: 32px;
+    }
+    
+    .btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    .btn-group-sm>.btn {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    
+    /* Header de contenido */
+    .content-header > h1 {
+        font-size: 20px;
+        margin: 10px 0;
+    }
+    
+    .breadcrumb {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+    
+    /* User header en dropdown */
+    .user-header > img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .user-header > p {
+        font-size: 14px;
+    }
+    
+    .user-footer .btn {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+    
+    /* Toast notifications */
+    .toast {
+        right: 10px;
+        bottom: 10px;
+        max-width: calc(100% - 20px);
+    }
+    
+    /* Theme switch button */
+    .theme-switch {
+        width: 35px;
+        height: 35px;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/* ===========================
+   RESPONSIVE - MÓVILES PEQUEÑOS (hasta 480px)
+   =========================== */
+
+@media (max-width: 480px) {
+    .main-header .logo {
+        width: 150px;
+    }
+    
+    .main-header .navbar {
+        margin-left: 150px;
+    }
+    
+    .main-sidebar {
+        width: 150px;
+    }
+    
+    .small-box h3 {
+        font-size: 20px !important;
+    }
+    
+    .small-box p {
+        font-size: 10px !important;
+    }
+    
+    .small-box .icon {
+        font-size: 50px;
+    }
+    
+    .box-title {
+        font-size: 13px !important;
+    }
+    
+    canvas {
+        max-height: 200px !important;
+    }
+    
+    .table {
+        font-size: 11px;
+    }
+    
+    .content-header > h1 {
+        font-size: 18px;
+    }
+}
+
+/* ===========================
+   RESPONSIVE - TABLETS (768px - 991px)
+   =========================== */
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .main-header {
+        display: block !important;
+    }
+    
+    .main-header .logo {
+        position: fixed !important;
+        width: 200px !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    .main-header .navbar {
+        position: fixed !important;
+        margin-left: 200px !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    
+    .main-sidebar {
+        width: 200px;
+    }
+    
+    .content-wrapper {
+        margin-left: 200px;
+    }
+    
+    .sidebar-collapse .content-wrapper {
+        margin-left: 50px;
+    }
+    
+    .sidebar-mini.sidebar-collapse .main-header .logo {
+        width: 50px !important;
+    }
+    
+    .sidebar-mini.sidebar-collapse .main-header .navbar {
+        margin-left: 50px !important;
+    }
+    
+    /* Cajas en tablets */
+    .col-sm-6 {
+        margin-bottom: 20px;
+    }
+    
+    .small-box h3 {
+        font-size: 30px !important;
+    }
+    
+    canvas {
+        max-height: 280px !important;
+    }
+    
+    .box {
+        margin-bottom: 15px;
+    }
+    
+    .table-responsive {
+        margin-bottom: 0;
+    }
+}
+
+/* ===========================
+   RESPONSIVE - TABLETS LANDSCAPE y DESKTOP (992px - 1199px)
+   =========================== */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .main-header {
+        display: block !important;
+    }
+    
+    .main-header .logo {
+        position: fixed !important;
+        width: 230px !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    .main-header .navbar {
+        position: fixed !important;
+        margin-left: 230px !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    
+    .main-sidebar {
+        width: 230px;
+    }
+    
+    .content-wrapper {
+        margin-left: 230px;
+    }
+    
+    .sidebar-mini.sidebar-collapse .main-header .logo {
+        width: 50px !important;
+    }
+    
+    .sidebar-mini.sidebar-collapse .main-header .navbar {
+        margin-left: 50px !important;
+    }
+    
+    .sidebar-mini.sidebar-collapse .content-wrapper {
+        margin-left: 50px;
+    }
+    
+    canvas {
+        max-height: 300px !important;
+    }
+}
+
+/* ===========================
+   RESPONSIVE - DESKTOP GRANDE (1200px+)
+   =========================== */
+
+@media (min-width: 1200px) {
+    .main-header {
+        display: block !important;
+    }
+    
+    .main-header .logo {
+        position: fixed !important;
+        width: 230px !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    
+    .main-header .navbar {
+        position: fixed !important;
+        margin-left: 230px !important;
+        left: 0 !important;
+        right: 0 !important;
+    }
+    
+    .content-wrapper {
+        margin-left: 230px;
+    }
+    
+    .main-sidebar {
+        width: 230px;
+    }
+    
+    .sidebar-mini.sidebar-collapse .main-header .logo {
+        width: 50px !important;
+    }
+    
+    .sidebar-mini.sidebar-collapse .main-header .navbar {
+        margin-left: 50px !important;
+    }
+    
+    .sidebar-mini.sidebar-collapse .content-wrapper {
+        margin-left: 50px;
+    }
+    
+    .container {
+        width: 1170px;
+    }
+    
+    canvas {
+        max-height: 350px !important;
+    }
+}
+
+/* ===========================
+   RESPONSIVE - TVS Y PANTALLAS MUY GRANDES (1600px+)
+   =========================== */
+
+@media (min-width: 1600px) {
+    body {
+        font-size: 16px;
+    }
+    
+    .container {
+        width: 1440px;
+    }
+    
+    .box {
+        margin-bottom: 30px;
+    }
+}
+
+/* ===========================
+   RESPONSIVE - 4K Y ULTRA HD (2560px+)
+   =========================== */
+
+@media (min-width: 2560px) {
+    body {
+        font-size: 18px;
+    }
+    
+    .container {
+        max-width: 2400px;
+    }
+    
+    .small-box h3 {
+        font-size: 52px !important;
+    }
+    
+    .small-box p {
+        font-size: 20px !important;
+    }
+    
+    .small-box .icon {
+        font-size: 120px;
+    }
+    
+    canvas {
+        max-height: 550px !important;
+    }
+    
+    .table {
+        font-size: 16px;
+    }
+}
+
+/* ===========================
+   ORIENTACIÓN: LANDSCAPE MÓVIL
+   =========================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+    .main-header {
+        min-height: 40px;
+    }
+    
+    .main-header .logo {
+        height: 40px;
+        line-height: 40px;
+    }
+    
+    .main-header .navbar {
+        min-height: 40px;
+    }
+    
+    .navbar-nav > li > a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    
+    .content-wrapper {
+        margin-top: 40px;
+    }
+    
+    .main-sidebar {
+        margin-top: 40px;
+    }
+    
+    .small-box {
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+    
+    .small-box h3 {
+        font-size: 20px !important;
+        margin: 5px 0;
+    }
+    
+    .small-box p {
+        font-size: 10px !important;
+        margin: 0;
+    }
+    
+    .small-box .icon {
+        font-size: 40px;
+        top: 5px;
+    }
+    
+    .box {
+        margin-bottom: 10px;
+    }
+    
+    canvas {
+        max-height: 180px !important;
+    }
+}
+
+/* ===========================
+   TABLETS EN LANDSCAPE
+   =========================== */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+    .content-wrapper {
+        padding: 10px;
+    }
+    
+    .box-body {
+        padding: 10px;
+    }
+    
+    canvas {
+        max-height: 250px !important;
+    }
+}
+
+/* ===========================
+   TABLETS EN PORTRAIT
+   =========================== */
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+    .col-md-6 {
+        width: 100%;
+    }
+    
+    .small-box {
+        margin-bottom: 15px;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA GRÁFICOS RESPONSIVOS
+   =========================== */
+
+.chart-responsive {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-height: 200px;
+    background: var(--primary-bg) !important;
+}
+
+.chart-responsive canvas {
+    background: var(--primary-bg) !important;
+    display: block !important;
+}
+
+@media (max-width: 767px) {
+    .chart-responsive {
+        min-height: 200px;
+    }
+}
+
+/* Chart Loader */
+.chart-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    color: var(--text-primary);
+}
+
+/* Asegurar que los canvas sean visibles */
+canvas {
+    background-color: transparent !important;
+}
+
+.box-body {
+    background: var(--primary-bg);
+}
+
+/* BOTÓN DE TEMA - VISIBLE Y FUNCIONAL */
+.theme-switch {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    z-index: 10000 !important;
+    padding: 10px;
+    border-radius: 50%;
+    background-color: var(--header-bg);
+    color: var(--header-text);
+    border: 2px solid var(--header-bg);
+    cursor: pointer;
+    width: 50px !important;
+    height: 50px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.theme-switch:hover {
+    transform: scale(1.1) rotate(180deg);
+    box-shadow: 0 6px 20px rgba(0, 166, 90, 0.5);
+}
+
+.theme-switch i {
+    font-size: 1.3rem;
+}
+
+/* ===========================
+   MEJORAS PARA TABLAS RESPONSIVAS
+   =========================== */
+
+.table-responsive {
+    min-height: 200px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767px) {
+    .table-responsive > .table {
+        margin-bottom: 0;
+    }
+    
+    .table-responsive > .table > thead > tr > th,
+    .table-responsive > .table > tbody > tr > th,
+    .table-responsive > .table > tfoot > tr > th,
+    .table-responsive > .table > thead > tr > td,
+    .table-responsive > .table > tbody > tr > td,
+    .table-responsive > .table > tfoot > tr > td {
+        white-space: nowrap;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA BREADCRUMB
+   =========================== */
+
+@media (max-width: 767px) {
+    .breadcrumb > li {
+        display: inline-block;
+    }
+    
+    .breadcrumb > li + li:before {
+        padding: 0 3px;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA BOTONES
+   =========================== */
+
+@media (max-width: 767px) {
+    .btn-group {
+        display: block;
+    }
+    
+    .btn-group > .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 5px;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA ALERTAS
+   =========================== */
+
+@media (max-width: 767px) {
+    .alert {
+        padding: 10px;
+        font-size: 13px;
+    }
+    
+    .alert h4 {
+        font-size: 16px;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA MODALES
+   =========================== */
+
+@media (max-width: 767px) {
+    .modal-dialog {
+        margin: 10px;
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: 10px;
+    }
+    
+    .modal-title {
+        font-size: 16px;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA SELECT2
+   =========================== */
+
+@media (max-width: 767px) {
+    .select2-container {
+        width: 100% !important;
+    }
+    
+    .select2-selection {
+        height: 32px !important;
+        padding: 5px 12px !important;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA DATEPICKER
+   =========================== */
+
+@media (max-width: 767px) {
+    .datepicker {
+        font-size: 12px;
+    }
+    
+    .datepicker td,
+    .datepicker th {
+        padding: 3px;
+    }
+}
+
+/* ===========================
+   ANIMACIONES
+   =========================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.small-box {
+    animation: fadeIn 0.5s ease;
+}
+
+.box {
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.fa-spin {
+    animation: spin 1s infinite linear;
+}
+
+/* ===========================
+   TOAST NOTIFICATIONS
+   =========================== */
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #333;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    max-width: 300px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.toast-success {
+    background: #00a65a;
+}
+
+.toast.toast-error {
+    background: #dd4b39;
+}
+
+.toast.toast-warning {
+    background: #f39c12;
+}
+
+.toast.toast-info {
+    background: #00c0ef;
+}
+
+.toast i {
+    margin-right: 10px;
+}
+
+/* ===========================
+   BUTTON ACTIVE STATE
+   =========================== */
+
+.btn-active {
+    transform: scale(0.95);
+    transition: transform 0.1s;
+}
+
+/* Touch device styles */
+.touch-device .small-box {
+    cursor: pointer;
+}
+
+.touch-device .small-box.touch-active {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+}
+
+/* ===========================
+   HEADER SCROLLED
+   =========================== */
+
+.header-scrolled {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* ===========================
+   MEJORAS PARA IMPRESIÓN
+   =========================== */
+
+@media print {
+    .main-header,
+    .main-sidebar,
+    .content-header,
+    .small-box-footer,
+    .box-tools,
+    .no-print,
+    .theme-switch {
+        display: none !important;
+    }
+    
+    .content-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .box {
+        border: 1px solid #ddd;
+        page-break-inside: avoid;
+    }
+    
+    body {
+        background: white;
+    }
+}
+
+/* ===========================
+   SCROLLBAR PERSONALIZADO
+   =========================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-text);
+}
+
+/* ===========================
+   LOADING OVERLAY
+   =========================== */
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-overlay.active {
+    display: flex;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--header-bg);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* ===========================
+   RESPONSIVE IMAGES
+   =========================== */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===========================
+   FIX PARA SAFARI iOS
+   =========================== */
+
+@supports (-webkit-touch-callout: none) {
+    .content-wrapper {
+        min-height: -webkit-fill-available;
+    }
+    
+    .chart-responsive canvas {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* ===========================
+   MEJORAS PARA TOUCH DEVICES
+   =========================== */
+
+@media (hover: none) and (pointer: coarse) {
+    .btn,
+    .small-box-footer {
+        padding: 12px 15px;
+        min-height: 44px;
+    }
+    
+    .sidebar-menu > li > a {
+        padding: 15px 10px;
+    }
+    
+    .dropdown-menu > li > a {
+        padding: 15px 20px;
+    }
+}
+
+/* ===========================
+   ACCESIBILIDAD
+   =========================== */
+
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #000;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+}
+
+/* ===========================
+   MODO OSCURO AUTOMÁTICO
+   =========================== */
+
+body.dark-mode-system {
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+body.dark-mode-system .box {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+body.dark-mode-system .small-box {
+    color: #fff;
+}
+
+/* Alto contraste para mejor legibilidad */
+@media (prefers-contrast: high) {
+    .small-box {
+        border: 2px solid #000;
+    }
+    
+    .box {
+        border: 2px solid #000;
+    }
+}
+
+/* ===========================
+   TRANSICIONES SUAVES
+   =========================== */
+
+.main-sidebar,
+.content-wrapper,
+.main-header {
+    transition: all 0.3s ease;
+}

@@ -370,6 +370,768 @@
             background-color: var(--bg-nav) !important;
             color: #fff !important;
         }
+
+        /* ========================================== */
+/* ESTILOS DE M.A.R.I.A - RESPONSIVE MEJORADO */
+/* ========================================== */
+
+/* Botón flotante de M.A.R.I.A */
+.maria-button {
+    position: fixed !important;
+    bottom: 145px !important;
+    left: 20px !important;
+    z-index: 1000 !important;
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border: 3px solid #fff !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.6) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden !important;
+}
+
+.maria-button:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 6px 30px rgba(102, 126, 234, 0.8) !important;
+}
+
+.maria-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.maria-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff3b30;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ========================================== */
+/* MODAL DEL CHAT - RESPONSIVE */
+/* ========================================== */
+
+.maria-modal {
+    display: none;
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    width: 300px; /* ancho reducido para consistencia */
+    height: 440px; /* altura base moderada (se ajusta en media queries) */
+    max-height: calc(100vh - 120px); /* no sobrepasar la ventana */
+    background: var(--bg-main);
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+.maria-mute {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    color: #495057;
+    padding: 8px;
+    margin-right: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.maria-mute:hover {
+    background: #e9ecef;
+    color: #212529;
+    transform: scale(1.1);
+}
+
+.maria-mute i {
+    font-size: 16px;
+}
+.maria-modal.show {
+    display: flex;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================== */
+/* RESPONSIVE: MÓVILES (hasta 480px) */
+/* ========================================== */
+@media (max-width: 480px) {
+    .maria-button {
+        bottom: 20px !important;
+        left: 10px !important;
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    .maria-modal {
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 80px !important;
+        width: calc(100% - 20px) !important;
+        height: calc(100vh - 100px) !important;
+        max-height: 500px !important;
+    }
+    
+    .theme-switch {
+        bottom: 80px !important;
+        left: 10px !important;
+        width: 45px !important;
+        height: 45px !important;
+    }
+    
+    .maria-header {
+        padding: 12px 15px !important;
+    }
+    
+    .maria-avatar {
+        width: 38px !important;
+        height: 38px !important;
+    }
+    
+    .maria-name {
+        font-size: 14px !important;
+    }
+    
+    .maria-online {
+        font-size: 11px !important;
+    }
+    
+    .maria-messages {
+        padding: 15px !important;
+    }
+    
+    .maria-input-area {
+        padding: 10px 15px !important;
+    }
+    
+    .maria-mic-button,
+    .maria-send {
+        width: 35px !important;
+        height: 35px !important;
+        font-size: 16px !important;
+    }
+}
+
+/* ========================================== */
+/* RESPONSIVE: MÓVILES HORIZONTALES (481px - 767px) */
+/* ========================================== */
+@media (min-width: 481px) and (max-width: 767px) {
+    .maria-button {
+        bottom: 20px !important;
+        left: 15px !important;
+        width: 55px !important;
+        height: 55px !important;
+    }
+    
+    .maria-modal {
+        left: 15px !important;
+        right: 15px !important;
+        bottom: 85px !important;
+        width: calc(100% - 30px) !important;
+        height: 450px !important;
+        max-height: calc(100vh - 110px) !important;
+    }
+    
+    .theme-switch {
+        bottom: 85px !important;
+        left: 15px !important;
+    }
+}
+
+/* ========================================== */
+/* RESPONSIVE: TABLETS VERTICAL (768px - 991px) */
+/* ========================================== */
+@media (min-width: 768px) and (max-width: 991px) {
+    .maria-modal {
+        left: 20px !important;
+        bottom: 215px !important;
+        width: 320px !important;
+        height: 430px !important; /* altura ajustada a 430px */
+        max-height: calc(100vh - 160px) !important;
+    }
+    .maria-messages { max-height: calc(430px - 120px) !important; }
+}
+
+/* ========================================== */
+/* RESPONSIVE: TABLETS HORIZONTAL Y LAPTOPS (992px - 1199px) */
+/* ========================================== */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .maria-modal {
+        left: 20px !important;
+        bottom: 215px !important;
+        width: 340px !important;
+        height: 430px !important; /* altura ajustada a 430px */
+        max-height: calc(100vh - 160px) !important;
+    }
+    .maria-messages { max-height: calc(430px - 120px) !important; }
+}
+
+/* ========================================== */
+/* RESPONSIVE: DESKTOP (1200px - 1919px) */
+/* ========================================== */
+@media (min-width: 1200px) and (max-width: 1919px) {
+    .maria-modal {
+        left: 20px !important;
+        bottom: 215px !important;
+        width: 360px !important;
+        height: 430px !important; /* altura ajustada a 430px */
+        max-height: calc(100vh - 160px) !important;
+    }
+    .maria-messages { max-height: calc(430px - 120px) !important; }
+}
+
+/* ========================================== */
+/* RESPONSIVE: PANTALLAS GRANDES Y TVs (1920px+) */
+/* ========================================== */
+@media (min-width: 1920px) {
+    .maria-button {
+        width: 70px !important;
+        height: 70px !important;
+        bottom: 160px !important;
+        left: 30px !important;
+    }
+    
+    .maria-modal {
+        left: 30px !important;
+        bottom: 240px !important;
+        width: 380px !important;
+        height: 430px !important; /* mantener 430px en pantallas grandes */
+        max-height: calc(100vh - 160px) !important;
+    }
+    
+    .theme-switch {
+        width: 55px !important;
+        height: 55px !important;
+        bottom: 90px !important;
+        left: 30px !important;
+    }
+}
+
+/* ========================================== */
+/* ORIENTACIÓN: LANDSCAPE (HORIZONTAL) */
+/* ========================================== */
+@media (max-height: 500px) and (orientation: landscape) {
+    .maria-modal {
+        left: 10px !important;
+        right: auto !important;
+        bottom: 10px !important;
+        top: 10px !important;
+        width: 350px !important;
+        height: calc(100vh - 20px) !important;
+        max-height: none !important;
+    }
+    
+    .maria-button {
+        bottom: 10px !important;
+        left: 370px !important;
+    }
+    
+    .theme-switch {
+        bottom: 10px !important;
+        left: 430px !important;
+    }
+}
+
+/* ========================================== */
+/* ORIENTACIÓN: MÓVILES LANDSCAPE */
+/* ========================================== */
+@media (max-width: 767px) and (orientation: landscape) {
+    .maria-modal {
+        left: 10px !important;
+        bottom: 10px !important;
+        top: 10px !important;
+        width: 320px !important;
+        height: calc(160vh - 20px) !important;
+    }
+    
+    .maria-button {
+        bottom: 50% !important;
+        left: 340px !important;
+        transform: translateY(50%) !important;
+    }
+    
+    .theme-switch {
+        bottom: 50% !important;
+        left: 340px !important;
+        transform: translateY(130%) !important;
+    }
+    
+    .maria-messages {
+        padding: 10px !important;
+    }
+    
+    .welcome-message {
+        padding: 10px !important;
+    }
+    
+    .welcome-message img {
+        width: 60px !important;
+        height: 60px !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .welcome-message h3 {
+        font-size: 16px !important;
+    }
+    
+    .welcome-message p {
+        font-size: 12px !important;
+    }
+}
+
+/* ========================================== */
+/* HEADER DEL CHAT */
+/* ========================================== */
+.maria-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20px 20px 0 0;
+    flex-shrink: 0;
+}
+
+.maria-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.maria-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: cover;
+    position: relative;
+}
+
+.maria-status {
+    display: flex;
+    flex-direction: column;
+}
+
+.maria-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0;
+    color: white !important;
+}
+
+.maria-online {
+    font-size: 12px;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #4cd964;
+    border-radius: 50%;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.maria-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 20px;
+}
+
+.maria-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* ========================================== */
+/* ÁREA DE MENSAJES */
+/* ========================================== */
+.maria-messages {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    background: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+[data-theme="dark"] .maria-messages {
+    background: #1a1a1a;
+}
+
+.maria-message {
+    display: flex;
+    gap: 10px;
+    animation: messageAppear 0.3s ease;
+}
+
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.message-content {
+    max-width: 75%;
+}
+
+.message-bubble {
+    padding: 12px 16px;
+    border-radius: 18px;
+    margin-bottom: 4px;
+    word-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.maria-message.assistant .message-bubble {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.maria-message.user {
+    flex-direction: row-reverse;
+}
+
+.maria-message.user .message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.maria-message.user .message-bubble {
+    background: #007aff;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message-time {
+    font-size: 11px;
+    opacity: 0.6;
+    padding: 0 8px;
+    color: var(--text-main);
+}
+
+/* ========================================== */
+/* ÁREA DE INPUT */
+/* ========================================== */
+.maria-input-area {
+    padding: 15px 20px;
+    background: var(--bg-main);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-radius: 0 0 20px 20px;
+    flex-shrink: 0;
+}
+
+[data-theme="dark"] .maria-input-area {
+    background: #1a1a1a;
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.maria-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #e5e5ea;
+    border-radius: 20px;
+    background: var(--bg-main);
+    color: var(--text-main);
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+[data-theme="dark"] .maria-input {
+    background: #2d2d2d;
+    border-color: #3d3d3d;
+}
+
+.maria-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.maria-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.maria-send:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.maria-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================== */
+/* MENSAJE DE BIENVENIDA */
+/* ========================================== */
+.welcome-message {
+    text-align: center;
+    padding: 15px;
+    color: var(--text-main);
+}
+
+.welcome-message img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 12px;
+    border: 3px solid #667eea;
+}
+
+.welcome-message h3 {
+    margin: 0 0 8px 0;
+    color: #667eea !important;
+    font-size: 18px;
+}
+
+.welcome-message p {
+    margin: 4px 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.quick-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.quick-question {
+    padding: 10px 15px;
+    background: rgba(102, 126, 234, 0.1);
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 12px;
+    text-align: left;
+    color: var(--text-main);
+}
+
+.quick-question:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: translateX(5px);
+}
+
+/* ========================================== */
+/* SISTEMA DE VOZ */
+/* ========================================== */
+.maria-mic-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #28a745;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 18px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.maria-mic-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.maria-mic-button.listening {
+    background: #dc3545;
+    animation: pulse-mic 1.5s infinite;
+}
+
+@keyframes pulse-mic {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(220, 53, 69, 0);
+    }
+}
+
+.listening-indicator {
+    padding: 15px;
+    text-align: center;
+}
+
+.listening-animation {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.listening-animation span {
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+    animation: sound-wave 1s ease-in-out infinite;
+}
+
+.listening-animation span:nth-child(1) { animation-delay: 0s; }
+.listening-animation span:nth-child(2) { animation-delay: 0.1s; }
+.listening-animation span:nth-child(3) { animation-delay: 0.2s; }
+.listening-animation span:nth-child(4) { animation-delay: 0.3s; }
+.listening-animation span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes sound-wave {
+    0%, 100% { height: 20px; }
+    50% { height: 40px; }
+}
+
+.listening-indicator p {
+    color: var(--text-main);
+    font-weight: bold;
+    margin: 0;
+    font-size: 13px;
+}
+
+.maria-avatar.speaking {
+    animation: avatar-speak 0.5s ease-in-out infinite;
+    border-color: #28a745;
+    box-shadow: 0 0 20px rgba(40, 167, 69, 0.6);
+}
+
+@keyframes avatar-speak {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ========================================== */
+/* SCROLLBAR PERSONALIZADO */
+/* ========================================== */
+.maria-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.maria-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.maria-messages::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 3px;
+}
+
+.maria-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.5);
+}
+
+/* ========================================== */
+/* AJUSTES PARA ASEGURAR VISIBILIDAD */
+/* ========================================== */
+.maria-button,
+.maria-modal {
+    pointer-events: auto !important;
+}
+
+/* Prevenir overflow en dispositivos pequeños */
+body.maria-open {
+    overflow: hidden;
+}
+
+@media (max-width: 767px) {
+    body.maria-open .maria-modal {
+        position: fixed;
+    }
+}
+
     </style>
     
     <script>
