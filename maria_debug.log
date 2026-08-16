@@ -78,3 +78,5 @@
 [2025-11-24 22:16:38] FALLBACK_TRIGGERED: message='¿Cómo puedo contactarlos?' aiResponse='❌ Error de conexión con la API local: Failed to connect to localhost port 11434 after 2237 ms: Couldn&#039;t connect to server'
 [2025-11-25 23:05:34] CURL_ERROR: Failed to connect to localhost port 11434 after 2255 ms: Couldn't connect to server
 [2025-11-25 23:05:34] FALLBACK_TRIGGERED: message='¿Cómo puedo contactarlos?' aiResponse='❌ Error de conexión con la API local: Failed to connect to localhost port 11434 after 2255 ms: Couldn&#039;t connect to server'
+[2025-12-10 23:44:06] CURL_ERROR: Empty reply from server
+[2025-12-10 23:44:06] FALLBACK_TRIGGERED: message='¿Cómo puedo contactarlos?' aiResponse='❌ Error de conexión con la API local: Empty reply from server'

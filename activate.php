@@ -72,7 +72,7 @@
 	}
 ?>
 <?php include 'includes/header.php'; ?>
-<body class="hold-transition skin-green layout-top-nav">
+<body class="">
 <div class="wrapper">
 
 	<?php include 'includes/navbar.php'; ?>

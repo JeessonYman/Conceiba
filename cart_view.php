@@ -2,31 +2,33 @@
 <html lang="es">
 <?php include 'includes/session.php'; ?>
 <?php include 'includes/header.php'; ?>
-<body class="hold-transition skin-green layout-top-nav">
+<body class="">
 <div class="wrapper">
 
 	<?php include 'includes/navbar.php'; ?>
  
 	<div class="content-wrapper">
-		<div class="container">
+		<div class="container-fluid px-4 py-3">
 
 			<!-- Main content -->
-			<section class="content" style='border-radius:10px;'>
-				<div class="row" style='border-radius:10px;'>
-					<div class="col-sm-9" style='border-radius:10px;'>
-						<h1 class="page-header" style='border-radius:10px;'>Su Carrito:</h1>
-						<div class="box box-solid" style='border-radius:10px;'>
-							<div class="box-body table-responsive" style='border-radius:10px; overflow-x: auto;'>
-								<table class="table table-bordered" style='border-radius:10px;'>
+			<section class="content">
+				<div class="row g-4">
+					<div class="col-lg-9">
+						<h1 class="h3 mb-3">Su Carrito</h1>
+						<div class="glass p-3 mb-3">
+							<div class="table-responsive">
+								<table class="table table-hover align-middle mb-0">
 									<thead>
-										<th></th>
-										<th>Foto</th>
-										<th>Nombre</th>
-										<th>Precio</th>
-										<th width="20%">Cantidad</th>
-										<th>Subtotal</th>
+										<tr>
+											<th></th>
+											<th>Foto</th>
+											<th>Nombre</th>
+											<th>Precio</th>
+											<th width="20%">Cantidad</th>
+											<th>Subtotal</th>
+										</tr>
 									</thead>
-									<tbody id="tbody" style='border-radius:10px;'>
+									<tbody id="tbody">
 									</tbody>
 								</table>
 							</div>
@@ -34,25 +36,25 @@
 						<?php
 							if(isset($_SESSION['user'])){
 								echo "
-									<div id='paypal-button' style='border-radius:20px;'></div>
+									<div id='paypal-button'></div>
 									<div id='empty-cart-message' style='display:none;'>
-										<h4>Tu carrito está vacío. <a href='index.php' style='border-radius:10px;'>Agrega productos</a> para continuar.</h4>
+										<h4>Tu carrito está vacío. <a href='index.php'>Agrega productos</a> para continuar.</h4>
 									</div>
 								";
 							}
 							else{
 								echo "
-									<h4>Necesitas <a href='login.php' style='border-radius:10px;'>Iniciar sesión</a> para revisar.</h4>
+									<h4>Necesitas <a href='login.php'>Iniciar sesión</a> para revisar.</h4>
 								";
 							}
 						?>
 					</div>
-					<div class="col-sm-3" style='border-radius:10px;'>
+					<div class="col-lg-3">
 						<?php include 'includes/sidebar.php'; ?>
 					</div>
 				</div>
 			</section>
-		 
+
 		</div>
 	</div>
 	<?php $pdo->close(); ?>

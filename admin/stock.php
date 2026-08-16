@@ -17,11 +17,11 @@
 
             <section class="content">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Productos y Niveles de Stock</h3>
-                                <div class="pull-right">
+                                <div class="float-end">
                                     <button type="button" class="btn btn-warning btn-sm btn-flat" id="show-low-stock">
                                         <i class="fa fa-exclamation-triangle"></i> Solo Stock Bajo
                                     </button>
@@ -39,13 +39,15 @@
                                 ?>
                                     <table id="stock-table" class="table table-bordered">
                                         <thead>
+<tr>
                                             <th>Producto</th>
                                             <th>Categoría</th>
                                             <th>Stock Actual</th>
                                             <th>Stock Mínimo</th>
                                             <th>Estado</th>
                                             <th>Acciones</th>
-                                        </thead>
+                                        </tr>
+</thead>
                                         <tbody>
                                             <?php
                                             foreach ($stmt as $row) {
@@ -100,9 +102,60 @@
         </div>
         <?php include 'includes/footer.php'; ?>
     </div>
+
+    <!-- Ajustar stock -->
+    <div class="modal fade" id="adjust_stock">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"><b>Ajustar stock: </b><span id="adjust_stock_name"></span></h4>
+                </div>
+                <div class="modal-body">
+                  <form method="POST" action="stock_adjust.php">
+                    <input type="hidden" name="id" id="adjust_stock_id">
+                    <div class="mb-3">
+                      <label class="form-label">Stock actual</label>
+                      <input type="text" class="form-control" id="adjust_stock_current" disabled>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Nuevo stock</label>
+                      <input type="number" class="form-control" name="new_stock" id="adjust_stock_new" min="0" required>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Motivo del ajuste (opcional)</label>
+                      <textarea class="form-control" name="reason" rows="2" placeholder="Ej. corrección de inventario, producto dañado, conteo físico..."></textarea>
+                    </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat float-start" data-bs-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
+                    <button type="submit" class="btn btn-primary btn-flat" name="adjust"><i class="fa fa-save"></i> Guardar ajuste</button>
+                  </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php include 'includes/scripts.php'; ?>
     <script>
         $(function() {
+            $(document).on('click', '.adjust-stock', function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    type: 'POST',
+                    url: 'products_row.php',
+                    data: { id: id },
+                    dataType: 'json',
+                    success: function (response) {
+                        $('#adjust_stock_id').val(response.id);
+                        $('#adjust_stock_name').text(response.name);
+                        $('#adjust_stock_current').val(response.stock);
+                        $('#adjust_stock_new').val(response.stock);
+                        $('#adjust_stock').modal('show');
+                    }
+                });
+            });
+
             $('#show-low-stock').click(function() {
                 var rows = $('.stock-row');
                 if ($(this).hasClass('active')) {

@@ -41,7 +41,7 @@
         if(isset($_SESSION['error'])){
           echo "
             <div class='alert alert-danger alert-dismissible'>
-              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+              <button type='button' class='close' data-bs-dismiss='alert' aria-hidden='true'>&times;</button>
               <h4><i class='icon fa fa-warning'></i> Error!</h4>
               ".$_SESSION['error']."
             </div>
@@ -51,7 +51,7 @@
         if(isset($_SESSION['success'])){
           echo "
             <div class='alert alert-success alert-dismissible'>
-              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+              <button type='button' class='close' data-bs-dismiss='alert' aria-hidden='true'>&times;</button>
               <h4><i class='icon fa fa-check'></i> ¡Éxito!</h4>
               ".$_SESSION['success']."
             </div>
@@ -60,11 +60,11 @@
         }
       ?>
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-12">
           <div class="box">
             <div class="box-header with-border">
-              <a href="#addnew" data-toggle="modal" class="btn btn-primary btn-sm btn-flat" id="addproduct"><i class="fa fa-plus"></i> Nuevo</a>
-              <div class="pull-right">
+              <a href="#addnew" data-bs-toggle="modal" class="btn btn-primary btn-sm btn-flat" id="addproduct"><i class="fa fa-plus"></i> Nuevo</a>
+              <div class="float-end">
                 <form class="form-inline">
                   <div class="form-group">
                     <label>Categoria: </label>
@@ -113,6 +113,7 @@
             <div class="box-body">
               <table id="example1" class="table table-bordered">
                 <thead>
+<tr>
                   <th>Nombre</th>
                   <th>Foto</th>
                   <th>Descripción</th>
@@ -122,7 +123,8 @@
                   <th>Stock Minimo</th>
                   <th>Vistas hoy</th>
                   <th>Herramientas</th>
-                </thead>
+                </tr>
+</thead>
                 <tbody>
                   <?php
                     $conn = $pdo->open();
@@ -139,9 +141,12 @@
                             <td>".$row['name']."</td>
                             <td>
                               <img src='".$image."' height='30px' width='30px'>
-                              <span class='pull-right'><a href='#edit_photo' class='photo' data-toggle='modal' data-id='".$row['id']."'><i class='fa fa-edit'></i></a></span>
+                              <span class='float-end'>
+                                <a href='#edit_photo' class='photo' data-bs-toggle='modal' data-id='".$row['id']."' title='Cambiar foto principal'><i class='fa fa-edit'></i></a>
+                                <a href='#gallery_photos' class='gallery ms-2' data-bs-toggle='modal' data-id='".$row['id']."' title='Galería de fotos'><i class='fa fa-images'></i></a>
+                              </span>
                             </td>
-                            <td><a href='#description' data-toggle='modal' class='btn btn-info btn-sm btn-flat desc' data-id='".$row['id']."'><i class='fa fa-search'></i> Ver</a></td>
+                            <td><a href='#description' data-bs-toggle='modal' class='btn btn-info btn-sm btn-flat desc' data-id='".$row['id']."'><i class='fa fa-search'></i> Ver</a></td>
                             <td>S/ ".number_format($row['price'], 2)."</td>
                             <td>S/ ".number_format($row['price_normal'], 2)."</td>
                             <td>".$row['stock']."</td>
@@ -196,6 +201,30 @@ $(function(){
     getRow(id);
   });
 
+  $(document).on('click', '.gallery', function(e){
+    e.preventDefault();
+    var id = $(this).data('id');
+    $('.gallery-prodid').val(id);
+    loadGallery(id);
+  });
+
+  $(document).on('click', '.gallery-delete-btn', async function(e){
+    e.preventDefault();
+    var imgId = $(this).data('imgid');
+    var prodId = $('.gallery-prodid').val();
+    const ok = await mariaConfirm('¿Eliminar esta imagen de la galería?', 'Eliminar imagen');
+    if(!ok) return;
+    $.ajax({
+      type: 'POST',
+      url: 'products_gallery_delete_ajax.php',
+      data: {image_id: imgId},
+      dataType: 'json',
+      success: function(){
+        loadGallery(prodId);
+      }
+    });
+  });
+
   $(document).on('click', '.desc', function(e){
     e.preventDefault();
     var id = $(this).data('id');
@@ -239,6 +268,34 @@ $(function(){
 
 });
 
+function loadGallery(id){
+  $('#gallery-thumbs').html('<p class="text-center py-3">Cargando...</p>');
+  $.ajax({
+    type: 'POST',
+    url: 'products_gallery_fetch.php',
+    data: {id:id},
+    dataType: 'json',
+    success: function(response){
+      if(response.length === 0){
+        $('#gallery-thumbs').html('<p class="text-center text-muted py-3">Sin imágenes adicionales aún.</p>');
+        return;
+      }
+      var html = '<div class="row g-2">';
+      response.forEach(function(img){
+        html += '\
+          <div class="col-4 col-sm-3 gallery-thumb-item" data-imgid="'+img.id+'">\
+            <div class="position-relative">\
+              <img src="../images/'+img.image+'" class="img-fluid rounded" style="height:80px;width:100%;object-fit:cover;">\
+              <button type="button" class="btn btn-danger btn-sm gallery-delete-btn" data-imgid="'+img.id+'" style="position:absolute;top:2px;right:2px;padding:2px 6px;line-height:1;"><i class="fa fa-times"></i></button>\
+            </div>\
+          </div>';
+      });
+      html += '</div>';
+      $('#gallery-thumbs').html(html);
+    }
+  });
+}
+
 function getRow(id){
   $.ajax({
     type: 'POST',
@@ -257,7 +314,11 @@ function getRow(id){
       $('#edit_price_normal').val(response.price_normal);
       $('#edit_stock').val(response.stock);
       $('#edit_stock_minimum').val(response.stock_minimum);
-      CKEDITOR.instances["editor2"].setData(response.description);
+      if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances["editor2"]) {
+        CKEDITOR.instances["editor2"].setData(response.description);
+      } else {
+        $('#editor2').val(response.description);
+      }
       getCategory();
       getprovider();
     }

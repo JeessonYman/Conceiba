@@ -138,16 +138,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 // Enviar correo de confirmación
                 require 'vendor/autoload.php';
+		    		require_once __DIR__ . '/includes/mail_config.php';
                 
                 $mail = new PHPMailer(true);
                 
                 try {
                     // Configuración del servidor
                     $mail->isSMTP();
-                    $mail->Host = 'smtp.gmail.com';
+                    $mail->Host = SMTP_HOST;
                     $mail->SMTPAuth = true;
-                    $mail->Username = 'jeessonyman12@gmail.com';
-                    $mail->Password = 'iygevcfabazclxgq';
+                    $mail->Username = SMTP_USERNAME;
+                    $mail->Password = SMTP_PASSWORD;
                     $mail->SMTPOptions = array(
                         'ssl' => array(
                             'verify_peer' => false,
@@ -155,11 +156,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             'allow_self_signed' => true
                         )
                     );
-                    $mail->SMTPSecure = 'ssl';
-                    $mail->Port = 465;
+                    $mail->SMTPSecure = SMTP_SECURE;
+                    $mail->Port = SMTP_PORT;
                     $mail->CharSet = 'UTF-8';
                     
-                    $mail->setFrom('jeessonyman123@gmail.com', 'Conceiba SAC');
+                    $mail->setFrom(MAIL_FROM_EMAIL, MAIL_FROM_NAME);
                     $mail->addAddress($email);
                     $mail->addReplyTo('jeessonyman12@gmail.com', 'Conceiba SAC');
                     

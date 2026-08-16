@@ -8,6 +8,8 @@
  * =====================================================
  */
 
+date_default_timezone_set('America/Lima');
+
 require_once 'includes/session.php';
 require_once 'includes/conn.php';
 require_once 'maria_config.php';
@@ -97,6 +99,22 @@ $sanitizedMessage = sanitizeInput($userMessage);
 $userContext = '';
 $userName = 'Cliente';
 $userType = 'visitante';
+$isAdminMode = isset($_SESSION['admin']);
+$adminBusinessContext = '';
+
+if ($isAdminMode) {
+    $userContext = "Le estás hablando al ADMINISTRADOR de la tienda (no a un cliente).";
+    try {
+        // Cifras rápidas del negocio para poder responder preguntas de análisis
+        $totalVentasMes = $conn->query("SELECT COALESCE(SUM(total),0) as t FROM sales WHERE MONTH(sales_date)=MONTH(CURDATE()) AND YEAR(sales_date)=YEAR(CURDATE())")->fetch()['t'];
+        $totalProductos = $conn->query("SELECT COUNT(*) as c FROM products")->fetch()['c'];
+        $productosAgotados = $conn->query("SELECT COUNT(*) as c FROM products WHERE stock<=0")->fetch()['c'];
+        $totalUsuarios = $conn->query("SELECT COUNT(*) as c FROM users")->fetch()['c'];
+        $adminBusinessContext = "Cifras actuales del negocio: ventas de este mes S/ {$totalVentasMes}, {$totalProductos} productos en catálogo, {$productosAgotados} agotados, {$totalUsuarios} usuarios registrados.";
+    } catch (PDOException $e) {
+        // Si falla, seguimos sin estas cifras, no rompemos el chat
+    }
+}
 
 if (isset($_SESSION['user'])) {
     try {
@@ -388,6 +406,30 @@ if (preg_match('/(recomi[e|é]nda|qué me recomiendas|que me recomiendas|qué pr
 
 $productsInfo = getAvailableProducts();
 
+// --- Fecha, hora y temporada actual en Perú (America/Lima) ---
+$meses = [1=>'enero',2=>'febrero',3=>'marzo',4=>'abril',5=>'mayo',6=>'junio',7=>'julio',8=>'agosto',9=>'septiembre',10=>'octubre',11=>'noviembre',12=>'diciembre'];
+$diasSemana = [0=>'domingo',1=>'lunes',2=>'martes',3=>'miércoles',4=>'jueves',5=>'viernes',6=>'sábado'];
+$now = new DateTime('now', new DateTimeZone('America/Lima'));
+$mesActual = (int)$now->format('n');
+$fechaHoraStr = $diasSemana[(int)$now->format('w')].' '.$now->format('d').' de '.$meses[$mesActual].' de '.$now->format('Y').', '.$now->format('H:i').' hrs (hora de Perú)';
+
+// Perú está en el hemisferio sur: las estaciones son al revés que en el hemisferio norte
+if(in_array($mesActual, [12,1,2])){
+    $estacion = 'verano';
+    $climaNota = 'Hace calor, especialmente en la costa. Buen momento para recomendar productos frescos, ligeros, y de temporada de playa/verano.';
+} elseif(in_array($mesActual, [3,4,5])){
+    $estacion = 'otoño';
+    $climaNota = 'El clima empieza a refrescar. Buen momento para recomendar prendas de abrigo ligero.';
+} elseif(in_array($mesActual, [6,7,8])){
+    $estacion = 'invierno';
+    $climaNota = 'Hace frío, sobre todo en la sierra y en la costa (nublado y húmedo en Lima). Excelente momento para recomendar gorros, sombreros de lana, cojines abrigados y peluches como regalo.';
+} else {
+    $estacion = 'primavera';
+    $climaNota = 'El clima empieza a mejorar y calentar. Buen momento para recomendar productos versátiles.';
+}
+
+$fechaContextoStr = "Fecha y hora actual: {$fechaHoraStr}.\nEstación del año en Perú: {$estacion}.\nNota de temporada/clima: {$climaNota}\nUsa esta información SOLO cuando sea relevante para recomendar productos según la época del año (por ejemplo, sombreros/gorros de lana en invierno). No la menciones si no viene al caso.";
+
 // Buscar productos específicos si mencionan categorías
 $specificProducts = '';
 if (preg_match('/\b(sombrero|peluche|cojin|cojín|hilado|conejo|coneja|oso|decorativo|bordado)\b/i', $sanitizedMessage, $matches)) {
@@ -438,8 +480,26 @@ foreach ($COMPANY_INFO as $key => $value) {
     $companyInfoStr .= "- " . ucfirst($key) . ": $value\n";
 }
 
-$systemPrompt = "Eres MARÍA (Modelo Avanzado de Respuesta e Interacción Automatizada), la asistente virtual amigable y profesional de Conceiba.
-Tu objetivo es ayudar a los clientes a encontrar productos, responder dudas sobre envíos, pagos y la empresa.
+if ($isAdminMode) {
+    $systemPrompt = "Eres MARÍA, la asistente virtual de análisis de negocio para el ADMINISTRADOR de Conceiba. Aquí NO eres vendedora — eres analista: ayudas a entender las cifras, explicar qué representa cada gráfico/reporte del panel, y sugerir acciones de negocio basadas en datos reales.
+
+CONTEXTO ACTUAL:
+{$userContext}
+{$adminBusinessContext}
+
+{$fechaContextoStr}
+
+CÓMO RESPONDER (importante):
+1. Si te preguntan qué representa un gráfico (ej. 'informe mensual de ventas', 'ventas totales'), explica claramente qué datos muestra, cómo interpretarlo, y qué patrones o alertas podrían ser relevantes (ej. caídas de ventas, poco stock, meses altos/bajos).
+2. Usa SIEMPRE las cifras reales que tienes arriba, nunca inventes números.
+3. Si detectas algo que amerite atención (ej. productos agotados, ventas bajas este mes), menciónalo proactivamente con una recomendación concreta.
+4. TU IDENTIDAD ES INNEGOCIABLE: SIEMPRE te llamas MARÍA.
+5. Responde de forma breve, clara y profesional — como un analista de negocio experimentado, no como vendedora.
+6. Si no tienes el dato exacto para responder algo, dilo honestamente y sugiere dónde en el panel podría revisarlo (ej. 'Consultar ventas', 'Inventario').
+";
+}
+else {
+$systemPrompt = "Eres MARÍA (Modelo Avanzado de Respuesta e Interacción Automatizada), la asesora de ventas virtual de Conceiba. NO eres un simple chatbot de preguntas y respuestas: eres una vendedora proactiva, cálida y persuasiva (sin ser insistente ni agresiva), como la mejor vendedora de una tienda física.
 
 INFORMACIÓN DE LA EMPRESA:
 {$companyInfoStr}
@@ -450,18 +510,25 @@ CONTEXTO ACTUAL:
 - Título de la página: {$currentTitle}
 {$currentProductInfo}
 
-INSTRUCCIONES:
-1. TU IDENTIDAD ES INNEGOCIABLE: SIEMPRE te llamas MARÍA. NUNCA uses otro nombre. Si te preguntan quién eres, responde SIEMPRE que eres MARÍA.
-2. Responde de forma breve, amable y con emojis.
-3. Si te preguntan por productos, usa la información disponible en 'PRODUCTOS DISPONIBLES' o 'PRODUCTOS ESPECÍFICOS'.
-4. Si no sabes algo, sugiere contactar por WhatsApp.
-5. NO inventes productos que no estén en la lista.
+{$fechaContextoStr}
+
+CÓMO VENDER (muy importante):
+1. Si el cliente pregunta qué productos tienes, NO des solo una lista seca: destaca 2-3 que más le puedan interesar según lo que diga, y pregunta qué está buscando para afinar la recomendación.
+2. Si el cliente pregunta por UN producto específico (o menciona su nombre/categoría), habla de ese producto como lo haría una vendedora: resalta sus beneficios reales (materiales, para qué sirve, por qué es especial), genera interés, y anímalo a verlo de cerca.
+3. Cuando menciones o recomiendes UN producto concreto, SIEMPRE usa el formato exacto [LINK:product:slug|Nombre del producto] con el slug real tal como aparece en PRODUCTOS DISPONIBLES — esto lo convierte automáticamente en un enlace clickeable hacia la página de ese producto. No inventes slugs. Usa este mismo formato también para categorías: [LINK:category:slug|Nombre de la categoría].
+4. Usa la fecha/estación del año para recomendar productos de temporada cuando tenga sentido (ej. en invierno, sombreros y gorros de lana; en verano, productos ligeros).
+5. Da 'vistos buenos' genuinos: transmite confianza sobre la calidad artesanal y sostenible de Conceiba (fibra de kapok, producción de comunidades locales, etc) cuando encaje naturalmente.
+6. TU IDENTIDAD ES INNEGOCIABLE: SIEMPRE te llamas MARÍA. NUNCA uses otro nombre. Si te preguntan quién eres, responde SIEMPRE que eres MARÍA.
+7. Responde de forma breve, amable y con emojis — como un mensaje de WhatsApp, no un ensayo.
+8. NO inventes productos, precios ni stock que no estén en la lista de abajo.
+9. Si no sabes algo o el cliente necesita ayuda humana, sugiere contactar por WhatsApp.
 
 PRODUCTOS DISPONIBLES:
 {$productsInfo}
 
 {$specificProducts}
 ";
+}
 
 // =====================================================
 // LLAMADA A LA API

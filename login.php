@@ -7,54 +7,50 @@
   }
 ?>
 <?php include 'includes/header.php'; ?>
-<body class="hold-transition" style="background: url(images/colores1.gif);" >
-<center>
-<div class="login-box">
-  	<?php
+<body>
+<div class="auth-wrapper">
+  <div class="auth-box text-center">
+    <?php
       if(isset($_SESSION['error'])){
         echo "
-          <div class='callout callout-danger text-center'>
-            <p>".$_SESSION['error']."</p> 
+          <div class='alert alert-danger text-center'>
+            ".$_SESSION['error']."
           </div>
         ";
         unset($_SESSION['error']);
       }
       if(isset($_SESSION['success'])){
         echo "
-          <div class='callout callout-success  style='border-radius:20px;' text-center'>
-            <p>".$_SESSION['success']."</p> 
+          <div class='alert alert-success text-center'>
+            ".$_SESSION['success']."
           </div>
         ";
         unset($_SESSION['success']);
       }
     ?>
-  	<div class="login-box-body" style="border-radius:20px;">
-    	<p class="login-box-msg"><b>Inicia Sesión</b></p>
-      <a href="#"><img src="images/Conceiba.png" alt="" height="120px" width="320px"></a>
-      <br>
-      <br>
-    	<form action="verify.php" method="POST" style="border-radius:20px;">
-      		<div class="form-group has-feedback bg">
-        		<input type="email" class="form-control" style="border-radius:20px;" name="email" placeholder="Correo electrónico" required>
-        		<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      		</div>
-          <div class="form-group has-feedback">
-            <input type="password" class="form-control" style="border-radius:20px;" name="password" placeholder="Contraseña" required>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-      		<div class="row">
-    			<div class="col-xs-4">
-          			<button type="submit" class="btn btn-primary btn-block btn-flat"  style="border-radius:20px;" name="login"><i class="fa fa-sign-in"></i> Ingresar</button>
-        		</div>
-      		</div>
-    	</form>
-      <br>
-      <a href="password_forgot.php"><b style="color:hsl(0,100%,50%);">Olvidé mi contraseña</b></a><br>
-      <a href="signup.php" class="text-center"><b >Registrar una cuenta </b></a><br>
-      <a href="index.php"><b><i class="fa fa-home"></i> Casa </b></a>
-  	</div>
+    <h4 class="fw-bold mb-3">Inicia Sesión</h4>
+    <a href="index.php"><img src="images/<?php echo htmlspecialchars($settings['logo']); ?>" alt="<?php echo htmlspecialchars($settings['store_name']); ?>" height="90" class="mb-3"></a>
+
+    <form action="verify.php" method="POST" class="text-start">
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-envelope me-1"></i> Correo electrónico</label>
+        <input type="email" class="form-control" name="email" placeholder="tu@correo.com" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-lock me-1"></i> Contraseña</label>
+        <input type="password" class="form-control" name="password" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-accent w-100" name="login">
+        <i class="fa fa-sign-in"></i> Ingresar
+      </button>
+    </form>
+
+    <hr class="my-3">
+    <a href="password_forgot.php" class="d-block mb-2 text-danger fw-semibold">Olvidé mi contraseña</a>
+    <a href="signup.php" class="d-block mb-2 fw-semibold">Registrar una cuenta</a>
+    <a href="index.php" class="d-block"><i class="fa fa-home"></i> Volver al inicio</a>
+  </div>
 </div>
-</center>
 <?php include 'includes/scripts.php' ?>
 </body>
 </html>

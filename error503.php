@@ -210,7 +210,7 @@ body.dark-mode .maintenance-badge {
 }
 </style>
 </head>
-<body class="hold-transition skin-green layout-top-nav">
+<body class="">
 <div class="wrapper">
 
     <?php include 'includes/navbar.php'; ?>

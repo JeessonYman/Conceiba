@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="box box-solid" style="border-radius: 15px;">
-        <div class="box-header with-border" style="border-radius: 15px 15px 0 0;">
+    <div class="box box-solid">
+        <div class="box-header with-border">
             <h3 class="box-title"><b>Más vistos hoy</b></h3>
         </div>
         <div class="box-body">
@@ -21,7 +21,7 @@
                     }
                 } else {
                     echo "<h4 class='text-center'>No hay productos vistos hoy</h4>";
-                    echo "<div class='text-center'><img src='./images/pandatriste.png' alt='Panda Triste' class='img-responsive' style='width: 60%; margin: 0 auto;'></div>";
+                    echo "<div class='text-center'><img src='./images/pandatriste.png' alt='Panda Triste' class='img-fluid' style='width: 60%; margin: 0 auto;'></div>";
                 }
 
                 $pdo->close();
@@ -32,8 +32,8 @@
 </div>
 
 <div class="row">
-    <div class="box box-solid" style="border-radius: 15px;">
-        <div class="box-header with-border" style="border-radius: 15px 15px 0 0;">
+    <div class="box box-solid">
+        <div class="box-header with-border">
             <h3 class="box-title"><b>Hazte suscriptor</b></h3>
         </div>
         <div class="box-body">
@@ -41,9 +41,7 @@
             <form method="POST" action="subscribe.php" id="subscribeForm">
                 <div class="input-group">
                     <input type="email" name="subscriber_email" class="form-control" placeholder="Tu correo electrónico" required>
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-success" style="border-radius: 0 4px 4px 0;"><i class="far fa-envelope"></i></button>
-                    </span>
+                    <button type="submit" class="btn btn-success"><i class="far fa-envelope"></i></button>
                 </div>
                 <div id="subscribe-message" class="mt-2"></div>
             </form>
@@ -52,12 +50,12 @@
 </div>
 
 <div class="row">
-    <div class="box box-solid" style="border-radius: 15px;">
-        <div class="box-header with-border" style="border-radius: 15px 15px 0 0;">
+    <div class="box box-solid">
+        <div class="box-header with-border">
             <h3 class="box-title"><b>Síguenos en las redes sociales</b></h3>
         </div>
         <div class="box-body text-center">
-            <div style="margin-bottom: 10px;">
+            <div class="d-flex flex-wrap justify-content-center" style="gap:8px; margin-bottom: 10px;">
                 <a class="btn btn-social-icon" style="margin: 5px; background: #3b5998; border-radius: 50%; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;" href="https://www.facebook.com/conceiba.es" target="_blank"><i class="fab fa-facebook-f" style="color: white; font-size: 18px;"></i></a>
                 <a class="btn btn-social-icon" style="margin: 5px; background: #e4405f; border-radius: 50%; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;" href="https://www.instagram.com/conceibaperu/" target="_blank"><i class="fab fa-instagram" style="color: white; font-size: 20px;"></i></a>
                 <a class="btn btn-social-icon" style="margin: 5px; background: #25D366; border-radius: 50%; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center;" href="https://api.whatsapp.com/send?phone=+51945472993&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Los%20Productos/" target="_blank"><i class="fab fa-whatsapp" style="color: white; font-size: 20px;"></i></a>

@@ -17,10 +17,10 @@
 
             <section class="content">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                         <div class="box">
                             <div class="box-header with-border">
-                                <div class="pull-right">
+                                <div class="float-end">
                                     <form method="POST" class="form-inline">
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
@@ -37,8 +37,8 @@
                                                 } ?>
                                             </select>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-sm btn-flat" name="filter"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
-                                        <button type="button" class="btn btn-success btn-sm btn-flat" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+                                        <button type="submit" class="btn btn-primary btn-sm btn-flat" name="filter"><span class="bi bi-filter"></span> Filtrar</button>
+                                        <button type="button" class="btn btn-success btn-sm btn-flat" onclick="window.print()"><span class="bi bi-print"></span> Imprimir</button>
                                     </form>
                                 </div>
                                 <h3 class="box-title">
@@ -63,12 +63,14 @@
                                 ?>
                                     <table id="example1" class="table table-bordered">
                                         <thead>
+<tr>
                                             <th>Fecha</th>
                                             <th>Comprador</th>
                                             <th>Transacción#</th>
                                             <th>Monto</th>
                                             <th>Detalles</th>
-                                        </thead>
+                                        </tr>
+</thead>
                                         <tbody>
                                             <?php
                                             foreach ($stmt as $row) {
@@ -116,6 +118,7 @@
             </section>
         </div>
         <?php include 'includes/footer.php'; ?>
+        <?php include '../includes/profile_modal.php'; ?>
     </div>
     <?php include 'includes/scripts.php'; ?>
     <script>

@@ -1,0 +1,236 @@
+/* ============================================================
+   Conceiba — Glassmorphism Utilities
+   Requiere Bootstrap 5 (usa sus variables de color y radios).
+   Uso: agrega la clase .glass, .glass-card, .glass-nav o .glass-panel
+   a cualquier elemento existente para darle el efecto de vidrio.
+   ============================================================ */
+
+/* Fondo con gradiente: sin esto detrás, el blur del glass no se nota */
+body {
+  background: linear-gradient(135deg, #e8f5ef 0%, #d4ebe1 40%, #c8e6d5 100%) fixed;
+  min-height: 100vh;
+}
+
+.wrapper,
+.content-wrapper {
+  background: transparent !important;
+}
+
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.42);
+  --glass-bg-strong: rgba(255, 255, 255, 0.58);
+  --glass-border: rgba(255, 255, 255, 0.35);
+  --glass-shadow: rgba(31, 38, 135, 0.20);
+  --glass-blur: 14px;
+}
+
+[data-theme="dark"] {
+  --glass-bg: rgba(20, 20, 20, 0.55);
+  --glass-bg-strong: rgba(30, 30, 30, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: rgba(0, 0, 0, 0.45);
+}
+
+/* Aplicado automático: cajas (.box) del admin y modales de todo el sitio,
+   así el efecto se ve sin tener que editar cada uno de los ~260 archivos. */
+.box,
+.modal-content {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  border-radius: 1rem;
+}
+
+/* Base: aplica el vidrio a cualquier elemento */
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  border-radius: 1rem;
+}
+
+/* Tarjetas / paneles / .box de AdminLTE con vidrio */
+.glass-card,
+.glass-panel,
+.box.glass {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 var(--glass-shadow);
+  border-radius: 1rem;
+}
+
+/* Navbar / header con vidrio (útil para .main-header .navbar) */
+.glass-nav {
+  background: var(--glass-bg) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 4px 24px 0 var(--glass-shadow);
+}
+
+/* Sidebar con vidrio (AdminLTE .main-sidebar) */
+.glass-sidebar {
+  background: var(--glass-bg) !important;
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border-right: 1px solid var(--glass-border);
+}
+
+/* Modales con vidrio */
+.modal-content.glass {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(180%);
+  backdrop-filter: blur(calc(var(--glass-blur) + 6px)) saturate(180%);
+  border: 1px solid var(--glass-border);
+}
+
+/* Botones estilo vidrio */
+.btn-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  color: inherit;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-glass:hover {
+  background: var(--glass-bg-strong);
+  box-shadow: 0 4px 16px 0 var(--glass-shadow);
+}
+
+/* Utilidad para dar profundidad a fondos detrás del vidrio (opcional) */
+.glass-backdrop {
+  position: relative;
+  isolation: isolate;
+}
+
+.glass-backdrop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: inherit;
+  filter: blur(0);
+}
+
+/* Fallback para navegadores sin soporte de backdrop-filter */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .glass-card,
+  .glass-panel,
+  .glass-nav,
+  .glass-sidebar,
+  .modal-content.glass,
+  .btn-glass {
+    background: var(--glass-bg-strong);
+  }
+}
+
+/* ============================================================
+   Toast Alerts (glass) — notificaciones flotantes abajo-derecha
+   con barra de progreso que se reduce hasta auto-cerrarse.
+   ============================================================ */
+#toast-glass-stack {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(360px, calc(100vw - 40px));
+}
+
+.toast-glass {
+  position: relative;
+  overflow: hidden;
+  padding: 14px 36px 14px 16px;
+  border-radius: 0.85rem;
+  color: #1c1c1c;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+  animation: toast-glass-in 0.25s ease;
+}
+
+@keyframes toast-glass-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast-glass-hide {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast-glass-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.toast-glass-icon {
+  font-size: 1.2rem;
+  margin-top: 2px;
+}
+
+.toast-glass-content {
+  flex: 1;
+  font-size: 0.92rem;
+}
+
+.toast-glass-content h4 {
+  font-size: 0.95rem;
+  margin: 0 0 2px 0;
+  font-weight: 700;
+}
+
+.toast-glass-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+}
+
+.toast-glass-close:hover {
+  opacity: 1;
+}
+
+.toast-glass-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: currentColor;
+  opacity: 0.5;
+  transition: width linear;
+}
+
+.toast-danger  { background: rgba(220, 53, 69, 0.28);  color: #6a1420; }
+.toast-success { background: rgba(25, 135, 84, 0.28);  color: #0e3d26; }
+.toast-warning { background: rgba(255, 193, 7, 0.35);  color: #5c4404; }
+.toast-info    { background: rgba(13, 202, 240, 0.28); color: #04414d; }
+
+.toast-danger  .toast-glass-progress { color: #dc3545; }
+.toast-success .toast-glass-progress { color: #198754; }
+.toast-warning .toast-glass-progress { color: #ffc107; }
+.toast-info    .toast-glass-progress { color: #0dcaf0; }
+
+/* Oculta la alerta original de Bootstrap una vez convertida a toast */
+.alert[data-toast-processed] {
+  display: none !important;
+}
+

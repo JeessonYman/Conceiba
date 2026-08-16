@@ -4,48 +4,41 @@
 <?php
   if(!isset($_GET['code']) OR !isset($_GET['user'])){
     header('location: index.php');
-    exit(); 
+    exit();
   }
 ?>
 <?php include 'includes/header.php'; ?>
-<body class="hold-transition" 
-      style="
-        background: url('images/colores3.gif') no-repeat center center fixed;
-        background-size: cover;
-      ">
-<body class="hold-transition login-page" style="background: url(images/colores.gif);">
-<div class="login-box">
-  	<?php
+<body>
+<div class="auth-wrapper">
+  <div class="auth-box text-center">
+    <?php
       if(isset($_SESSION['error'])){
         echo "
-          <div class='callout callout-danger text-center'>
-            <p>".$_SESSION['error']."</p> 
+          <div class='alert alert-danger text-center'>
+            ".$_SESSION['error']."
           </div>
         ";
         unset($_SESSION['error']);
       }
     ?>
-  	<div class="login-box-body" style='border-radius:10px;'>
-    	<p class="login-box-msg" style='border-radius:10px;'>Introduzca nueva contraseña</p>
-      <a href="#"><img src="images/Conceiba.png" alt="" height="120px" width="320px"></a>
-    	<form action="password_new.php?code=<?php echo $_GET['code']; ?>&user=<?php echo $_GET['user']; ?>"  style='border-radius:10px;' method="POST">
-      		<div class="form-group has-feedback" style='border-radius:10px;'>
-        		<input type="password" class="form-control" style='border-radius:10px;' name="password" placeholder="Nueva contraseña" required>
-        		<span class="glyphicon glyphicon-lock form-control-feedback" style='border-radius:10px;'></span>
-      		</div>
-          <div class="form-group has-feedback" style='border-radius:10px;'>
-            <input type="password" class="form-control" style='border-radius:10px;' name="repassword" placeholder="Vuelva a escribir la contraseña" required>
-            <span class="glyphicon glyphicon-log-in form-control-feedback" style='border-radius:10px;' ></span>
-          </div>
-      		<div class="row" style='border-radius:10px;'>
-    			<div class="col-xs-4" style='border-radius:10px;'>
-          			<button type="submit" class="btn btn-primary btn-block btn-flat" style='border-radius:20px;' name="reset"><i class="fa fa-check-square-o"></i> Reiniciar</button>
-        		</div>
-      		</div>
-    	</form>
-  	</div>
+    <h4 class="fw-bold mb-3">Introduce nueva contraseña</h4>
+    <a href="index.php"><img src="images/<?php echo htmlspecialchars($settings['logo']); ?>" alt="<?php echo htmlspecialchars($settings['store_name']); ?>" height="80" class="mb-3"></a>
+
+    <form action="password_new.php?code=<?php echo $_GET['code']; ?>&user=<?php echo $_GET['user']; ?>" method="POST" class="text-start">
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-lock me-1"></i> Nueva contraseña</label>
+        <input type="password" class="form-control" name="password" placeholder="Nueva contraseña" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-lock-fill me-1"></i> Repetir contraseña</label>
+        <input type="password" class="form-control" name="repassword" placeholder="Vuelve a escribirla" required>
+      </div>
+      <button type="submit" class="btn btn-accent w-100" name="reset">
+        <i class="fa fa-check-square-o"></i> Reiniciar
+      </button>
+    </form>
+  </div>
 </div>
-	
 <?php include 'includes/scripts.php' ?>
 </body>
 </html>

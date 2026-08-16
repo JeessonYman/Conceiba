@@ -2,13 +2,13 @@
 <html lang="es">
 <?php include 'includes/session.php'; ?>
 <?php include 'includes/header.php'; ?>
-<body class="hold-transition skin-green layout-top-nav" >
+<body class="" >
 <div class="wrapper" >
 
 	<?php include 'includes/navbar.php'; ?>
 	 
 	  <div class="content-wrapper"  >
-	    <div class="container" style="border-radius:20px;">
+	    <div class="container-fluid px-4">
 
 	      <!-- Main content -->
 	      <section class="content" >
@@ -55,22 +55,18 @@
 									$inc = ($inc == 3) ? 1 : $inc + 1;
 									if($inc == 1) echo "<div class='row'>";
 									echo "
-										<div class='col-sm-4' style='border-radius:20px;' >
-											<div class='box box-solid' style='border-radius:20px;' >
-												<div class='box-body prod-body' style='border-radius:20px;' >
-													<img src='".$image."'  style='border-radius:20px;' width='100%' height='230px' class='thumbnail'>
-													<h5><a href='product.php?product=".$row['slug']."'>".$highlighted."</a></h5>
-												</div>
-												<div class='box-footer price-container' style='border-radius:20px; background-color: #333333; color: #ffffff;'>
-													<b style='color: inherit;'>S/ ".number_format($row['price'], 2)."</b>
-												</div>
+										<div class='col-sm-4 mb-4'>
+											<div class='product-card p-3 text-center h-100'>
+												<img src='".$image."' class='rounded-3 mb-2' style='width:100%; height:230px; object-fit:contain; background:rgba(0,0,0,0.04);'>
+												<h6 class='fw-bold'><a href='product.php?product=".$row['slug']."'>".$highlighted."</a></h6>
+												<p class='price-now mb-0'>S/ ".number_format($row['price'], 2)."</p>
 											</div>
 										</div>
 									";
 									if($inc == 3) echo "</div>";
 								}
-								if($inc == 1) echo "<div  style='border-radius:20px;'  class='col-sm-4'></div><div  style='border-radius:20px;'  class='col-sm-4'></div></div>"; 
-								if($inc == 2) echo "<div style='border-radius:20px;'  class='col-sm-4'></div></div>";
+								if($inc == 1) echo "<div class='col-sm-4'></div><div class='col-sm-4'></div></div>";
+								if($inc == 2) echo "<div class='col-sm-4'></div></div>";
 							}
 						}
 						catch(PDOException $e){
@@ -96,46 +92,5 @@
 </div>
 
 <?php include 'includes/scripts.php'; ?>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Función para actualizar los colores del precio
-    function updatePriceColors() {
-		// Detectar tema leyendo el atributo data-theme del elemento <html>
-		const theme = document.documentElement.getAttribute('data-theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-		const isDarkMode = theme === 'dark';
-		const priceContainers = document.querySelectorAll('.price-container');
-
-		priceContainers.forEach(container => {
-			if (isDarkMode) {
-				container.style.backgroundColor = '#333333';
-				container.style.color = '#ffffff';
-			} else {
-				container.style.backgroundColor = '#ffffff';
-				container.style.color = '#333333';
-			}
-			// Asegurar contraste consistente y transición
-			container.style.transition = 'background-color 0.15s ease, color 0.15s ease';
-		});
-    }
-
-	// Observar cambios en el atributo data-theme del elemento <html>
-	const observer = new MutationObserver(function(mutations) {
-		mutations.forEach(function(mutation) {
-			if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
-				updatePriceColors();
-			}
-		});
-	});
-
-	// Configurar el observer sobre documentElement para escuchar cambios en data-theme
-	observer.observe(document.documentElement, {
-		attributes: true,
-		attributeFilter: ['data-theme']
-	});
-
-    // Ejecutar inicialmente
-    updatePriceColors();
-});
-</script>
 </body>
 </html>

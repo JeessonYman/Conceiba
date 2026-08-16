@@ -23,10 +23,10 @@
             <!-- Main content -->
             <section class="content">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                         <div class="box">
                             <div class="box-header with-border">
-                                <div class="pull-right">
+                                <div class="float-end">
                                     <form method="POST" class="form-inline">
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -35,10 +35,10 @@
                                             <input type="date" class="form-control" id="filter_date" name="filter_date" value="<?php echo date('Y-m-d'); ?>">
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-sm btn-flat" name="filter">
-                                            <span class="glyphicon glyphicon-filter"></span> Filtrar
+                                            <span class="bi bi-filter"></span> Filtrar
                                         </button>
                                         <button type="button" class="btn btn-success btn-sm btn-flat" onclick="window.print()">
-                                            <span class="glyphicon glyphicon-print"></span> Imprimir
+                                            <span class="bi bi-print"></span> Imprimir
                                         </button>
                                     </form>
                                 </div>
@@ -62,12 +62,14 @@
                                 ?>
                                     <table id="example1" class="table table-bordered">
                                         <thead>
+<tr>
                                             <th>Hora</th>
                                             <th>Comprador</th>
                                             <th>Transacción#</th>
                                             <th>Monto</th>
                                             <th>Detalles</th>
-                                        </thead>
+                                        </tr>
+</thead>
                                         <tbody>
                                             <?php
                                             foreach ($stmt as $row) {
@@ -120,6 +122,7 @@
         </div>
 
         <?php include 'includes/footer.php'; ?>
+        <?php include '../includes/profile_modal.php'; ?>
     </div>
 
     <?php include 'includes/scripts.php'; ?>

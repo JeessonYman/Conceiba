@@ -37,7 +37,7 @@
     $pdo->close();
 ?>
 <?php include 'includes/header.php'; ?>
-<body class="hold-transition skin-green layout-top-nav">
+<body class="">
 <script>
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -52,7 +52,7 @@
     <?php include 'includes/navbar.php'; ?>
      
     <div class="content-wrapper">
-        <div class="container" style="border-radius:20px;">
+        <div class="container-fluid px-4">
         <?php
       if(isset($_SESSION['error'])){
         echo "
@@ -81,7 +81,38 @@
                     </div>
                     <div class="row" style="border-radius:20px;">
                         <div class="col-sm-6" style="border-radius:20px;">
-                            <img src="<?php echo (!empty($product['photo'])) ? 'images/'.$product['photo'] : 'images/noimage.jpg'; ?>" width="100%" style="border-radius:20px;" class="zoom"  data-magnify-src="images/large-<?php echo $product['photo']; ?>">
+                            <img src="<?php echo (!empty($product['photo'])) ? 'images/'.$product['photo'] : 'images/noimage.jpg'; ?>" width="100%" style="border-radius:20px;" class="zoom" id="mainProductImage" data-magnify-src="images/large-<?php echo $product['photo']; ?>">
+                            <?php
+                                $galleryConn = $pdo->open();
+                                $galleryStmt = $galleryConn->prepare("SELECT * FROM product_images WHERE product_id=:id ORDER BY sort_order ASC, id ASC");
+                                $galleryStmt->execute(['id'=>$product['prodid']]);
+                                $galleryImages = $galleryStmt->fetchAll(PDO::FETCH_ASSOC);
+                                $pdo->close();
+
+                                if(!empty($galleryImages)){
+                                    echo '<div class="d-flex flex-wrap gap-2 mt-2" id="productGalleryThumbs">';
+                                    // La foto principal también es una miniatura clickeable
+                                    echo '<img src="images/'.htmlspecialchars($product['photo']).'" class="gallery-thumb active" data-full="images/'.htmlspecialchars($product['photo']).'" data-large="images/large-'.htmlspecialchars($product['photo']).'" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid var(--accent,#e0ac2b);">';
+                                    foreach($galleryImages as $img){
+                                        if(!file_exists('images/'.$img['image'])) continue;
+                                        echo '<img src="images/'.htmlspecialchars($img['image']).'" class="gallery-thumb" data-full="images/'.htmlspecialchars($img['image']).'" data-large="images/'.htmlspecialchars($img['image']).'" style="width:60px;height:60px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;">';
+                                    }
+                                    echo '</div>';
+                                    echo '<script>
+                                        document.addEventListener("DOMContentLoaded", function(){
+                                            document.querySelectorAll(".gallery-thumb").forEach(function(thumb){
+                                                thumb.addEventListener("click", function(){
+                                                    var mainImg = document.getElementById("mainProductImage");
+                                                    mainImg.src = this.dataset.full;
+                                                    mainImg.setAttribute("data-magnify-src", this.dataset.large);
+                                                    document.querySelectorAll(".gallery-thumb").forEach(function(t){ t.style.borderColor = "transparent"; });
+                                                    this.style.borderColor = "var(--accent, #e0ac2b)";
+                                                });
+                                            });
+                                        });
+                                    </script>';
+                                }
+                            ?>
                             <br>
                             <br>
                             <form class="form-inline" id="productForm" style="border-radius:20px;">
