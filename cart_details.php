@@ -44,18 +44,16 @@
 				$total += $subtotal;
 				$output .= "
 					<tr>
-						<td><button type='button' data-id='".$row['cartid']."' class='btn btn-danger btn-flat cart_delete' style='border-radius:20px;'><i class='fa fa-remove' style='border-radius:20px;'></i></button></td>
-						<td><img src='".$image."' width='30px' height='30px' style='border-radius:10px;'></td>
+						<td><button type='button' data-id='".$row['cartid']."' class='btn btn-sm btn-outline-danger cart_delete'><i class='fa fa-remove'></i></button></td>
+						<td><img src='".$image."' width='40' height='40' class='rounded-2' style='object-fit:cover;'></td>
 						<td>".$row['name']."</td>
 						<td>S/ ".number_format($row['price'], 2)."</td>
-						<td class='input-group'>
-						<span class='input-group-btn' style='border-radius:20px;'>
-						<button type='button' class='btn btn-default btn-flat minus' style='border-radius:20px;' data-id='".$row['cartid']."'><i class='fa fa-minus'></i></button>
-						</span>
-						<input type='text' class='form-control' style='border-radius:10px;' value='".$cartQuantity."' id='qty_".$row['cartid']."' oninput='validateQuantity(this, ".$row['stock'].")'>
-						<span class='input-group-btn' style='border-radius:20px;'>
-						<button type='button' class='btn btn-default btn-flat add' style='border-radius:20px;' data-id='".$row['cartid']."'><i class='fa fa-plus'></i></button>
-						</span>
+						<td>
+							<div class='input-group input-group-sm' style='width:130px;'>
+								<button type='button' class='btn btn-outline-secondary minus' data-id='".$row['cartid']."'><i class='fa fa-minus'></i></button>
+								<input type='text' class='form-control text-center' value='".$cartQuantity."' id='qty_".$row['cartid']."' oninput='validateQuantity(this, ".$row['stock'].")'>
+								<button type='button' class='btn btn-outline-secondary add' data-id='".$row['cartid']."'><i class='fa fa-plus'></i></button>
+							</div>
 						</td>
 						<td>S/ ".number_format($subtotal, 2)."</td>
 					</tr>
@@ -63,7 +61,7 @@
 			}
 			$output .= "
 				<tr>
-					<td colspan='5' align='right' style='border-radius:10px;' ><b>Total</b></td>
+					<td colspan='5' align='right'><b>Total</b></td>
 					<td><b>S/ ".number_format($total, 2)."</b></td>
 				</tr>
 			";
@@ -93,19 +91,16 @@
 	
 				$output .= "
 					<tr>
-						<td><button type='button' data-id='".$row['productid']."' class='btn btn-danger btn-flat cart_delete' style='border-radius:10px;'><i class='fa fa-remove'></i></button></td>
-						<td><img src='".$image."' width='30px' height='30px' style='border-radius:10px;'></td>
+						<td><button type='button' data-id='".$row['productid']."' class='btn btn-sm btn-outline-danger cart_delete'><i class='fa fa-remove'></i></button></td>
+						<td><img src='".$image."' width='40' height='40' class='rounded-2' style='object-fit:cover;'></td>
 						<td>".$product['name']."</td>
 						<td>S/ ".number_format($product['price'], 2)."</td>
-						<td class='input-group' style='border-radius:10px;'>
-							<span class='input-group-btn' style='border-radius:10px;'>
-								<button type='button' id='minus' class='btn btn-default btn-flat minus' style='border-radius:10px;' data-id='".$row['productid']."'><i class='fa fa-minus'></i></button>
-							</span>
-							<input type='text' class='form-control' style='border-radius:10px;' value='".$cartQuantity."' id='qty_".$row['productid']."' oninput='validateQuantity(this, ".$availableStock.")'>
-							<span class='input-group-btn' style='border-radius:10px;'>
-								<button type='button' id='add' class='btn btn-default btn-flat add'  style='border-radius:10px;' data-id='".$row['productid']."'><i class='fa fa-plus'></i>
-								</button>
-							</span>
+						<td>
+							<div class='input-group input-group-sm' style='width:130px;'>
+								<button type='button' id='minus' class='btn btn-outline-secondary minus' data-id='".$row['productid']."'><i class='fa fa-minus'></i></button>
+								<input type='text' class='form-control text-center' value='".$cartQuantity."' id='qty_".$row['productid']."' oninput='validateQuantity(this, ".$availableStock.")'>
+								<button type='button' id='add' class='btn btn-outline-secondary add' data-id='".$row['productid']."'><i class='fa fa-plus'></i></button>
+							</div>
 						</td>
 						<td>S/ ".number_format($subtotal, 2)."</td>
 					</tr>

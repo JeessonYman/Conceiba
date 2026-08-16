@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
+		    		require_once __DIR__ . '/includes/mail_config.php';
 require_once('tcpdf/tcpdf.php');
 include 'includes/session.php';
 
@@ -345,15 +346,15 @@ try {
         
         $mail = new PHPMailer(true);
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = SMTP_HOST;
         $mail->SMTPAuth = true;
-        $mail->Username = 'jeessonyman12@gmail.com';
-        $mail->Password = 'iygevcfabazclxgq';
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port = 465;
+        $mail->Username = SMTP_USERNAME;
+        $mail->Password = SMTP_PASSWORD;
+        $mail->SMTPSecure = SMTP_SECURE;
+        $mail->Port = SMTP_PORT;
         $mail->CharSet = 'UTF-8';
         
-        $mail->setFrom('jeessonyman123@gmail.com', 'Conceiba SAC');
+        $mail->setFrom(MAIL_FROM_EMAIL, MAIL_FROM_NAME);
         $mail->addAddress($clientEmail, $clientName);
         $mail->addReplyTo('jeessonyman12@gmail.com', 'Conceiba SAC');
         

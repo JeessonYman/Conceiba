@@ -17,17 +17,17 @@
 
             <section class="content">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-12">
                         <div class="box">
                             <div class="box-header with-border">
-                                <div class="pull-right">
+                                <div class="float-end">
                                     <form method="POST" class="form-inline">
                                         <div class="input-group">
                                             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                                             <input type="text" class="form-control" id="reservation" name="date_range">
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-sm btn-flat" name="filter"><span class="glyphicon glyphicon-filter"></span> Filtrar</button>
-                                        <button type="button" class="btn btn-success btn-sm btn-flat" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Imprimir</button>
+                                        <button type="submit" class="btn btn-primary btn-sm btn-flat" name="filter"><span class="bi bi-filter"></span> Filtrar</button>
+                                        <button type="button" class="btn btn-success btn-sm btn-flat" onclick="window.print()"><span class="bi bi-print"></span> Imprimir</button>
                                     </form>
                                 </div>
                             </div>
@@ -49,12 +49,14 @@
                                 ?>
                                     <table id="example1" class="table table-bordered">
                                         <thead>
+<tr>
                                             <th>Categoría</th>
                                             <th>Total Items</th>
                                             <th>Total Cantidad</th>
                                             <th>Monto Total</th>
                                             <th>Acciones</th>
-                                        </thead>
+                                        </tr>
+</thead>
                                         <tbody>
                                             <?php
                                             $grand_total = 0;
@@ -98,10 +100,79 @@
         </div>
         <?php include 'includes/footer.php'; ?>
     </div>
+
+    <!-- Detalle de categoría -->
+    <div class="modal fade" id="category_detail">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title"><b>Detalle de ingresos: </b><span id="category_detail_name"></span></h4>
+                </div>
+                <div class="modal-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Fecha</th>
+                          <th>Producto</th>
+                          <th>Cantidad</th>
+                          <th>Precio</th>
+                          <th>Subtotal</th>
+                        </tr>
+                      </thead>
+                      <tbody id="category_detail_body">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default btn-flat" data-bs-dismiss="modal"><i class="fa fa-close"></i> Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php include 'includes/scripts.php'; ?>
     <script>
         $(function() {
             $('#reservation').daterangepicker();
+
+            $(document).on('click', '.details', function () {
+                var id = $(this).data('id');
+                var categoryName = $(this).closest('tr').find('td').first().text();
+                $('#category_detail_name').text(categoryName);
+                $('#category_detail_body').html('<tr><td colspan="5" class="text-center">Cargando...</td></tr>');
+                $('#category_detail').modal('show');
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'income_category_detail.php',
+                    data: { category_id: id },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (!response.success || !response.rows || response.rows.length === 0) {
+                            $('#category_detail_body').html('<tr><td colspan="5" class="text-center">Sin ingresos registrados para esta categoría.</td></tr>');
+                            return;
+                        }
+                        var html = '';
+                        response.rows.forEach(function (row) {
+                            html += '<tr>' +
+                                '<td>' + row.input_date + '</td>' +
+                                '<td>' + row.product_name + '</td>' +
+                                '<td>' + row.quantity + '</td>' +
+                                '<td>S/ ' + parseFloat(row.price).toFixed(2) + '</td>' +
+                                '<td>S/ ' + parseFloat(row.subtotal).toFixed(2) + '</td>' +
+                                '</tr>';
+                        });
+                        $('#category_detail_body').html(html);
+                    },
+                    error: function () {
+                        $('#category_detail_body').html('<tr><td colspan="5" class="text-center">Error al cargar el detalle.</td></tr>');
+                    }
+                });
+            });
         });
     </script>
 </body>

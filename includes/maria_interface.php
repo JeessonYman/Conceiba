@@ -18,7 +18,7 @@
 
 <!-- Botón flotante de M.A.R.I.A -->
 <div class="maria-button" id="mariaButton">
-    <img src="<?php echo (isset($_SESSION['admin'])) ? '../images/maria-avatar.png' : 'images/maria-avatar.png'; ?>" alt="M.A.R.I.A">
+    <img src="<?php echo (isset($_SESSION['admin'])) ? '../images/'.($settings['assistant_avatar'] ?? 'maria-avatar.png') : 'images/'.($settings['assistant_avatar'] ?? 'maria-avatar.png'); ?>" alt="M.A.R.I.A">
     <span class="maria-badge" id="mariaBadge" style="display: none;">1</span>
 </div>
 
@@ -26,9 +26,9 @@
 <div class="maria-modal" id="mariaModal">
     <div class="maria-header">
         <div class="maria-header-info">
-            <img src="<?php echo (isset($_SESSION['admin'])) ? '../images/maria-avatar.png' : 'images/maria-avatar.png'; ?>" alt="M.A.R.I.A" class="maria-avatar">
+            <img src="<?php echo (isset($_SESSION['admin'])) ? '../images/'.($settings['assistant_avatar'] ?? 'maria-avatar.png') : 'images/'.($settings['assistant_avatar'] ?? 'maria-avatar.png'); ?>" alt="M.A.R.I.A" class="maria-avatar">
             <div class="maria-status">
-                <p class="maria-name">M.A.R.I.A</p>
+                <p class="maria-name"><?php echo htmlspecialchars($settings['assistant_name'] ?? 'M.A.R.I.A'); ?></p>
                 <p class="maria-online">
                     <span class="status-dot"></span>
                     En línea
@@ -44,10 +44,10 @@
 
     <div class="maria-messages" id="mariaMessages">
         <div class="welcome-message">
-            <img src="<?php echo (isset($_SESSION['admin'])) ? '../images/maria-avatar.png' : 'images/maria-avatar.png'; ?>" alt="M.A.R.I.A">
-            <h3>¡Hola<?php if (isset($_SESSION['user']) && isset($user)) echo ', ' . $user['firstname']; ?>! Soy M.A.R.I.A</h3>
-            <p><strong>Modelo Avanzado de Respuesta e Interacción Automatizada</strong></p>
-            <p>Tu asistente virtual de Conceiba 🌿</p>
+            <img src="<?php echo (isset($_SESSION['admin'])) ? '../images/'.($settings['assistant_avatar'] ?? 'maria-avatar.png') : 'images/'.($settings['assistant_avatar'] ?? 'maria-avatar.png'); ?>" alt="M.A.R.I.A">
+            <h3>¡Hola<?php if (isset($_SESSION['user']) && isset($user)) echo ', ' . $user['firstname']; ?>! Soy <?php echo htmlspecialchars($settings['assistant_name'] ?? 'M.A.R.I.A'); ?></h3>
+            <p><strong><?php echo htmlspecialchars($settings['assistant_tagline'] ?? 'Modelo Avanzado de Respuesta e Interacción Automatizada'); ?></strong></p>
+            <p>Tu asistente virtual de <?php echo htmlspecialchars($settings['store_name'] ?? 'Conceiba'); ?> 🌿</p>
             <p style="margin-top: 10px;">¿En qué puedo ayudarte hoy?</p>
 
             <div class="quick-questions">
@@ -166,17 +166,20 @@
                 if (isOpen) {
                     mariaModal.classList.add('show');
                     mariaButton.classList.add('active');
+                    mariaButton.style.display = 'none';
                     mariaBadge.style.display = 'none';
                     mariaInput.focus();
                 } else {
                     mariaModal.classList.remove('show');
                     mariaButton.classList.remove('active');
+                    mariaButton.style.display = 'flex';
                 }
             });
 
             mariaClose.addEventListener('click', function() {
                 mariaModal.classList.remove('show');
                 mariaButton.classList.remove('active');
+                mariaButton.style.display = 'flex';
                 isOpen = false;
             });
 
@@ -185,6 +188,7 @@
                 if (e.key === 'Escape' && isOpen) {
                     mariaModal.classList.remove('show');
                     mariaButton.classList.remove('active');
+                    mariaButton.style.display = 'flex';
                     isOpen = false;
                 }
             });
@@ -436,8 +440,11 @@
         }
 
         init() {
-            if (!('speechSynthesis' in window)) {
-                // console.warn('Tu navegador no soporta síntesis de voz');
+            const hasNativeSpeech = 'speechSynthesis' in window;
+            const hasExternalTTS = !!window.MARIA_TTS_BACKEND_URL;
+
+            if (!hasNativeSpeech && !hasExternalTTS) {
+                // console.warn('Tu navegador no soporta síntesis de voz y no hay backend externo configurado');
                 return;
             }
 
@@ -445,9 +452,12 @@
             this.setupRecognition();
 
             // Esperar a que se carguen las voces y seleccionar la más parecida a C.A.M.I.L.A.
-            window.speechSynthesis.onvoiceschanged = () => {
-                this.selectCamilaVoice();
-            };
+            // (solo aplica a la voz nativa del navegador; el backend externo trae su propia voz clonada)
+            if (hasNativeSpeech) {
+                window.speechSynthesis.onvoiceschanged = () => {
+                    this.selectCamilaVoice();
+                };
+            }
 
             this.setupMicButton();
             this.setupMuteButton();
@@ -574,13 +584,54 @@
         }
 
         speak(text) {
-            if (!this.autoSpeak || !this.synthesis) return;
+            if (!this.autoSpeak) return;
+
+            const cleanText = text
+                .replace(/[^\w\sáéíóúñÁÉÍÓÚÑ.,!?¡¿]/g, '')
+                .replace(/\s{2,}/g, ' ')
+                .trim();
+
+            if (!cleanText) return;
+
+            // Si hay un backend de voz externo configurado (Colab/XTTS con clonación de voz),
+            // usarlo en vez de la voz del navegador — mejor calidad y sin el ruido raro
+            // que genera speechSynthesis con palabras cortas.
+            if (window.MARIA_TTS_BACKEND_URL) {
+                this.speakViaExternalTTS(cleanText);
+                return;
+            }
+
+            this.speakViaBrowser(cleanText);
+        }
+
+        async speakViaExternalTTS(cleanText) {
+            try {
+                this.stopSpeaking();
+                const response = await fetch(window.MARIA_TTS_BACKEND_URL.replace(/\/$/, '') + '/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ texto: cleanText })
+                });
+                const data = await response.json();
+                if (!data.audio_b64) {
+                    throw new Error('Sin audio en la respuesta del backend de voz');
+                }
+                const audio = new Audio('data:audio/wav;base64,' + data.audio_b64);
+                this.currentExternalAudio = audio;
+                audio.play();
+            }
+            catch (err) {
+                console.warn('⚠️ Backend de voz externo (Colab) no disponible, usando voz del navegador:', err);
+                this.speakViaBrowser(cleanText);
+            }
+        }
+
+        speakViaBrowser(cleanText) {
+            if (!this.synthesis) return;
 
             this.synthesis.cancel(); // cancelar anterior
 
-            const utterance = new SpeechSynthesisUtterance(
-                text.replace(/[^\w\sáéíóúñÁÉÍÓÚÑ.,!?¡¿]/g, '')
-            );
+            const utterance = new SpeechSynthesisUtterance(cleanText);
             if (this.selectedVoice && this.selectedVoice.name.toLowerCase().includes('male')) {
                 // console.warn('⚠️ La voz detectada es masculina, intentando usar voz femenina alternativa...');
                 const femaleFallback = this.synthesis.getVoices().find(v =>
@@ -613,13 +664,21 @@
 
         stopSpeaking() {
             if (this.synthesis) this.synthesis.cancel();
+            if (this.currentExternalAudio) {
+                this.currentExternalAudio.pause();
+                this.currentExternalAudio = null;
+            }
             this.isSpeaking = false;
         }
     }
     // Inicializar M.A.R.I.A Voice
+    // Backend de voz externo (Colab/XTTS con clonación de voz), configurado desde el admin.
+    // Vacío = usar la voz nativa del navegador como respaldo.
+    window.MARIA_TTS_BACKEND_URL = <?php echo json_encode($settings['assistant_tts_backend_url'] ?? ''); ?> || null;
+
     window.mariaVoice = null;
     setTimeout(() => {
-        const supportsSpeech = 'speechSynthesis' in window;
+        const supportsSpeech = ('speechSynthesis' in window) || !!window.MARIA_TTS_BACKEND_URL;
         const supportsRecog = ('SpeechRecognition' in window) || ('webkitSpeechRecognition' in window);
         const isSecure = (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1');
         if (supportsSpeech || supportsRecog) {
@@ -642,16 +701,17 @@
     /* Estilos del modal */
     .maria-modal {
         position: fixed;
-        bottom: 100px;
-        right: 30px;
-        width: 300px;
-        /* Reducido para ocupar menos ancho */
-        height: 440px;
-        /* Reducido para evitar exceso de altura */
-        max-height: calc(180vh - 220px);
-        /* No sobrepasar la ventana */
-        background: white;
-        border-radius: 20px;
+        bottom: 120px;
+        left: 24px;
+        width: 320px;
+        height: 460px;
+        max-height: min(70vh, 520px);
+        background: var(--bg-main, rgba(255, 255, 255, 0.82));
+        color: var(--text-main, #1c231f);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        backdrop-filter: blur(16px) saturate(180%);
+        border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.4));
+        border-radius: 16px;
         box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
         display: none;
         flex-direction: column;
@@ -681,8 +741,10 @@
         align-items: center;
         padding: 10px;
         gap: 8px;
-        border-top: 1px solid #f1f1f1;
-        background: #fff;
+        border-top: 1px solid var(--border-glass, rgba(255,255,255,0.4));
+        background: var(--bg-main, rgba(255, 255, 255, 0.65));
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
     }
 
     /* Botón de silenciar mejorado */
@@ -759,12 +821,15 @@
     /* Estilos para M.A.R.I.A */
     .maria-button {
         position: fixed;
-        bottom: 30px;
-        right: 30px;
+        bottom: 90px;
+        left: 30px;
         width: 60px;
         height: 60px;
         border-radius: 50%;
-        background: white;
+        background: var(--bg-main, rgba(255, 255, 255, 0.75));
+        -webkit-backdrop-filter: blur(14px) saturate(180%);
+        backdrop-filter: blur(14px) saturate(180%);
+        border: 1px solid var(--border-glass, rgba(255,255,255,0.4));
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         cursor: pointer;
         z-index: 9999;
@@ -811,9 +876,329 @@
     }
 
     /* Animación para el avatar cuando está hablando */
-    .maria-avatar.speaking {
-        animation: avatar-speak 1s infinite;
-    }
+    .maria-header {
+    background: linear-gradient(135deg, rgba(15,81,50,0.9) 0%, rgba(11,61,46,0.9) 100%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    backdrop-filter: blur(12px) saturate(160%);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 16px 16px 0 0;
+    flex-shrink: 0;
+}
+
+.maria-header-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.maria-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #e0ac2b;
+    object-fit: cover;
+}
+
+.maria-name {
+    margin: 0;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.maria-online {
+    margin: 0;
+    font-size: 12px;
+    opacity: .85;
+}
+
+.maria-avatar.speaking {
+    animation: avatar-speak 1s infinite;
+}
+
+/* ========================================== */
+/* BADGE de notificación (recuperado, faltaba) */
+/* ========================================== */
+.maria-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff3b30;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid white;
+    animation: maria-badge-pulse 2s infinite;
+}
+@keyframes maria-badge-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ========================================== */
+/* Botón enviar mensaje (recuperado, faltaba) */
+/* ========================================== */
+.maria-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #0f5132 0%, #0b3d2e 100%);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+.maria-send:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(15, 81, 50, 0.4);
+}
+.maria-send:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ========================================== */
+/* Botón de micrófono / voz (recuperado, faltaba) */
+/* ========================================== */
+.maria-mic-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: #e0ac2b;
+    color: #2b1e00;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 18px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.maria-mic-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(224, 172, 43, 0.4);
+}
+.maria-mic-button.listening {
+    background: #dc3545;
+    color: #fff;
+    animation: maria-pulse-mic 1.5s infinite;
+}
+@keyframes maria-pulse-mic {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+    50% { box-shadow: 0 0 0 15px rgba(220, 53, 69, 0); }
+}
+
+/* ========================================== */
+/* Mensaje de bienvenida y preguntas rápidas (recuperado) */
+/* ========================================== */
+.welcome-message {
+    text-align: center;
+    padding: 15px;
+    color: var(--text-main, #333);
+}
+.welcome-message img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 12px;
+    border: 3px solid #e0ac2b;
+}
+.welcome-message h3 {
+    margin: 0 0 8px 0;
+    color: #c9971f !important;
+    font-size: 18px;
+}
+.welcome-message p {
+    margin: 4px 0;
+    font-size: 13px;
+    opacity: 0.8;
+}
+.quick-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+.quick-question {
+    padding: 10px 15px;
+    background: rgba(15, 81, 50, 0.08);
+    border: 1px solid rgba(15, 81, 50, 0.25);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 12px;
+    text-align: left;
+    color: var(--text-main, #333);
+}
+.quick-question:hover {
+    background: rgba(224, 172, 43, 0.18);
+    transform: translateX(5px);
+}
+
+/* ========================================== */
+/* Punto "en línea" y botón cerrar (recuperado) */
+/* ========================================== */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #4cd964;
+    border-radius: 50%;
+    animation: maria-blink 2s infinite;
+    display: inline-block;
+}
+@keyframes maria-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.maria-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 20px;
+}
+.maria-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* ========================================== */
+/* Mensajes del chat (recuperado) */
+/* ========================================== */
+.maria-message {
+    display: flex;
+    gap: 10px;
+    animation: maria-message-appear 0.3s ease;
+}
+@keyframes maria-message-appear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.message-content {
+    max-width: 75%;
+}
+
+.message-bubble {
+    padding: 12px 16px;
+    border-radius: 18px;
+    margin-bottom: 4px;
+    word-wrap: break-word;
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.maria-message.assistant .message-bubble {
+    background: linear-gradient(135deg, #0f5132 0%, #0b3d2e 100%);
+    color: white;
+    border-bottom-left-radius: 4px;
+}
+
+.maria-message.user {
+    flex-direction: row-reverse;
+}
+.maria-message.user .message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.maria-message.user .message-bubble {
+    background: #e0ac2b;
+    color: #2b1e00;
+    border-bottom-right-radius: 4px;
+}
+
+.message-time {
+    font-size: 11px;
+    opacity: 0.6;
+    padding: 0 8px;
+    color: var(--text-main, #333);
+}
+
+/* ========================================== */
+/* Campo de texto del chat (recuperado) */
+/* ========================================== */
+.maria-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #e5e5ea;
+    border-radius: 20px;
+    background: var(--bg-main, #fff);
+    color: var(--text-main, #333);
+    outline: none;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+[data-theme="dark"] .maria-input {
+    background: #2d2d2d;
+    border-color: #3d3d3d;
+}
+.maria-input:focus {
+    border-color: #0f5132;
+    box-shadow: 0 0 0 3px rgba(15, 81, 50, 0.15);
+}
+
+/* ========================================== */
+/* Indicador "escuchando" del micrófono (recuperado) */
+/* ========================================== */
+.listening-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    font-size: 12px;
+    color: var(--text-main, #333);
+}
+.listening-animation {
+    display: flex;
+    gap: 3px;
+}
+.listening-animation span {
+    width: 4px;
+    height: 16px;
+    background: #e0ac2b;
+    border-radius: 2px;
+    animation: maria-listening-wave 1s infinite ease-in-out;
+}
+.listening-animation span:nth-child(1) { animation-delay: 0s; }
+.listening-animation span:nth-child(2) { animation-delay: 0.15s; }
+.listening-animation span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes maria-listening-wave {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+}
 
     @keyframes avatar-speak {
 

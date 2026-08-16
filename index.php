@@ -4,12 +4,12 @@
 <?php include 'includes/session.php'; ?>
 <?php include 'includes/header.php'; ?>
 
-<body class="hold-transition skin-green layout-top-nav">
+<body class="">
     <div class="wrapper">
 
         <?php include 'includes/navbar.php'; ?>
         <div class="content-wrapper ">
-            <div class="container">
+            <div class="container-fluid px-4">
 
                 <!-- Main content -->
                 <section class="content">
@@ -30,120 +30,108 @@
                             </div>
                             
                             <div class="carousel-container">
-                                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="border-radius:20px; overflow:hidden; margin-bottom:20px;">
-                                    <ol class="carousel-indicators">
-                                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                                        <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
-                                        <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
-                                    </ol>
+                                <div id="carousel-example-generic" class="carousel slide carousel-fade glass" data-bs-ride="carousel" style="border-radius:16px; overflow:hidden; margin-bottom:20px;">
+                                    <div class="carousel-indicators">
+                                        <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Diapositiva 1"></button>
+                                        <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="1" aria-label="Diapositiva 2"></button>
+                                        <button type="button" data-bs-target="#carousel-example-generic" data-bs-slide-to="2" aria-label="Diapositiva 3"></button>
+                                    </div>
                                     <div class="carousel-inner">
-                                        <div class="item active">
-                                            <img src="images/carrusel1.png" alt="First slide" style="width:100%; height:auto;" loading="lazy">
+                                        <div class="carousel-item active">
+                                            <img src="images/carrusel1.png" class="d-block" alt="Peluches a base de Kapok" loading="lazy" style="width:100%; aspect-ratio:21/9; object-fit:cover; object-position:center top;">
                                         </div>
-                                        <div class="item">
-                                            <img src="images/carrusel2.png" alt="Second slide" style="width:100%; height:auto;" loading="lazy">
+                                        <div class="carousel-item">
+                                            <img src="images/carrusel2.png" class="d-block" alt="Productos Conceiba" loading="lazy" style="width:100%; aspect-ratio:21/9; object-fit:cover; object-position:center top;">
                                         </div>
-                                        <div class="item">
-                                            <img src="images/carrusel3.png" alt="Third slide" style="width:100%; height:auto;" loading="lazy">
+                                        <div class="carousel-item">
+                                            <img src="images/carrusel3.png" class="d-block" alt="Productos Conceiba" loading="lazy" style="width:100%; aspect-ratio:21/9; object-fit:cover; object-position:center top;">
                                         </div>
                                     </div>
-                                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                                        <span class="fa fa-angle-left"></span>
-                                    </a>
-                                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                                        <span class="fa fa-angle-right"></span>
-                                    </a>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel-example-generic" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Anterior</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel-example-generic" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Siguiente</span>
+                                    </button>
                                 </div>
                             </div>
+                            <br>
+                            <br>
+                            <?php
+                                $home = getKeyValueSettings($pdo, 'home_content', [
+                                    'about_title' => '¿Quiénes somos?',
+                                    'about_text' => 'Somos una empresa que aprovecha sosteniblemente la fibra vegetal de kapok.',
+                                    'about_image' => 'relleno1.jpg',
+                                    'impact_title' => 'NUESTRO IMPACTO',
+                                    'allies_title' => 'NUESTROS ALIADOS',
+                                ]);
+                            ?>
+                            <center>
+                                <h2><b><?php echo htmlspecialchars($home['about_title']); ?></b></h2>
                             </center>
                             <br>
-                            <br>
                             <center>
-                                <h2><b>¿Quiénes somos?</b></h2>
-                            </center>
-                            <br>
-                            <center>
-                                <h4>Somos una empresa que aprovecha sosteniblemente la fibra vegetal de kapok, para
-                                    elaborar artículos textiles. Generamos ingresos en comunidades, y contribuimos a la
-                                    preservación de bosques secos.</h4>
+                                <h4><?php echo nl2br(htmlspecialchars($home['about_text'])); ?></h4>
                                 <br>
-                            <center><img src="images/relleno1.jpg" alt="Imagen de relleno" width="" style="width:40%; border-radius: 20px;" loading="lazy"></center>
+                            <center><img src="images/<?php echo htmlspecialchars($home['about_image']); ?>" alt="Imagen de relleno" style="width:40%; border-radius: 20px;" loading="lazy"></center>
                                 <br>
-                                <h2> <b>NUESTRO IMPACTO</b></h2>
+                                <h2> <b><?php echo htmlspecialchars($home['impact_title']); ?></b></h2>
 
                             </center>
                             <section>
                                 <div class="container">
                                     <div class="row d-flex justify-content-center">
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <h3 class="text-center text-black">28 familias productoras</h3>
-                                            <br>
-                                            <center>
-                                                <img src="images/impacto.png" alt="" width="180"
-                                                    style="border-radius:20px;">
-                                            </center>
-                                            <br>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6">
-                                            <h3 class="text-center text-black">Cientos de árboles puestos en valor</h3>
-                                            <br>
-                                            <center>
-                                                <img src="images/impacto2.png" alt="" width="160"
-                                                    style="border-radius:20px;">
-                                            </center>
-                                            <br>
-                                        </div>
+                                        <?php
+                                            $conn = $pdo->open();
+                                            $stmt = $conn->prepare("SELECT * FROM impact_stats ORDER BY sort_order ASC, id ASC");
+                                            $stmt->execute();
+                                            foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $stat){
+                                                $statImg = (!empty($stat['image']) && file_exists('images/'.$stat['image'])) ? 'images/'.$stat['image'] : 'images/noimage.jpg';
+                                                echo '
+                                                    <div class="col-lg-4 col-md-6 col-sm-6">
+                                                        <h3 class="text-center">'.htmlspecialchars($stat['label']).'</h3>
+                                                        <br>
+                                                        <center>
+                                                            <img src="'.$statImg.'" alt="" width="180" style="border-radius:20px;">
+                                                        </center>
+                                                        <br>
+                                                    </div>
+                                                ';
+                                            }
+                                        ?>
                                     </div>
                                 </div>
                             </section>
                             <br>
                             <center>
-                                <h2> <b>NUESTROS ALIADOS</b></h2>
+                                <h2> <b><?php echo htmlspecialchars($home['allies_title']); ?></b></h2>
                                 <br>
-                                <article class="bg-light py-3 my-5">
-                                    <div class="container">
-                                    </div>
+                                <article class="py-3 my-5">
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <img src="images/aliado1.png" alt="" width="150"
-                                                            style="border-radius:20px;">
-                                                        <div class="redes d-flex justify-content-center">
-                                                            <i class="fa-brands fa-facebook m-2"></i>
-                                                            <i class="fa-brands fa-twitter m-2"></i>
-                                                            <i class="fa-brands fa-instagram m-2"></i>
+                                            <?php
+                                                $stmt = $conn->prepare("SELECT * FROM allies ORDER BY sort_order ASC, id ASC");
+                                                $stmt->execute();
+                                                foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $ally){
+                                                    $allyImg = (!empty($ally['image']) && file_exists('images/'.$ally['image'])) ? 'images/'.$ally['image'] : 'images/noimage.jpg';
+                                                    echo '
+                                                        <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <img src="'.$allyImg.'" alt="" width="150" style="border-radius:20px;">
+                                                                    <div class="redes d-flex justify-content-center">
+                                                                        '.(!empty($ally['facebook_url']) ? '<a href="'.htmlspecialchars($ally['facebook_url']).'" target="_blank"><i class="fa-brands fa-facebook m-2"></i></a>' : '<i class="fa-brands fa-facebook m-2"></i>').'
+                                                                        '.(!empty($ally['twitter_url']) ? '<a href="'.htmlspecialchars($ally['twitter_url']).'" target="_blank"><i class="fa-brands fa-twitter m-2"></i></a>' : '<i class="fa-brands fa-twitter m-2"></i>').'
+                                                                        '.(!empty($ally['instagram_url']) ? '<a href="'.htmlspecialchars($ally['instagram_url']).'" target="_blank"><i class="fa-brands fa-instagram m-2"></i></a>' : '<i class="fa-brands fa-instagram m-2"></i>').'
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <img src="images/aliado2.png" alt="" width="180"
-                                                            style="border-radius:20px;">
-                                                        <div class="redes d-flex justify-content-center">
-                                                            <i class="fa-brands fa-facebook m-2"></i>
-                                                            <i class="fa-brands fa-twitter m-2"></i>
-                                                            <i class="fa-brands fa-instagram m-2"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 col-md-6 col-sm-6 mb-2">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <img src="images/aliado3.png" alt="" width="180"
-                                                            style="border-radius:20px;">
-                                                        <div class="redes d-flex justify-content-center">
-                                                            <i class="fa-brands fa-facebook m-2"></i>
-                                                            <i class="fa-brands fa-twitter m-2"></i>
-                                                            <i class="fa-brands fa-instagram m-2"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                    ';
+                                                }
+                                            ?>
                                         </div>
                                     </div>
                                 </article>
@@ -195,16 +183,14 @@ try {
 
             if ($inc == 1) echo "<div class='row'>";
             echo "
-                <div class='col-sm-4 mb-4 product-card $stockClass' style='border-radius:20px;'>
-                    <div class='box box-solid h-100' style='border-radius:20px;'>
-                        <div class='box-body prod-body text-center' style='border-radius:20px; position: relative;'>
-                            $ribbon
-                            <img src='".$image."' style='border-radius:20px;' width='100%' height='150px' class='thumbnail'>
-                            <h5><a style='border-radius:20px; font-weight: bold' href='product.php?product=".$row['slug']."'>".$row['name']."</a></h5>
-                            <p>Stock: <span class='badge badge-pill ".(($row['stock'] > $row['stock_minimum']) ? 'badge-success' : (($row['stock'] > 0) ? 'badge-warning' : 'badge-danger'))."'>".$row['stock']."</span></p>
-                            <p class='mb-1'><b>Antes:</b> <s>S/ ".number_format($row['price_normal'], 2)."</s></p>
-                            <p><b>Ahora:</b><span style='font-weight: bold'>S/ ".number_format($row['price'], 2)." </span></p>
-                        </div>
+                <div class='col-sm-4 mb-4'>
+                    <div class='product-card h-100 p-3 text-center ".(($row['stock'] <= 0) ? 'disabled' : '')."' style='position: relative;'>
+                        $ribbon
+                        <img src='".$image."' class='rounded-3 mb-2' style='width:100%; height:150px; object-fit:contain; background:rgba(0,0,0,0.04);'>
+                        <h6 class='fw-bold'>".(($row['stock'] > 0) ? "<a href='product.php?product=".$row['slug']."'>".$row['name']."</a>" : $row['name'])."</h6>
+                        <p class='mb-1'>Stock: <span class='badge rounded-pill ".(($row['stock'] > $row['stock_minimum']) ? 'bg-success' : (($row['stock'] > 0) ? 'bg-warning text-dark' : 'bg-danger'))."'>".$row['stock']."</span></p>
+                        <p class='price-old mb-0'>Antes: S/ ".number_format($row['price_normal'], 2)."</p>
+                        <p class='price-now mb-0'>S/ ".number_format($row['price'], 2)."</p>
                     </div>
                 </div>
             ";
@@ -242,6 +228,9 @@ $pdo->close();
     /* Estilos del carrusel */
     .carousel-container {
         margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .carousel {
         border-radius: 20px;
@@ -254,224 +243,30 @@ $pdo->close();
     .carousel-indicators {
         bottom: 10px;
     }
-    .carousel-indicators li {
-        border: 1px solid #fff;
-        background: rgba(255,255,255,0.5);
+    .carousel-img {
+        height: 380px;
+        object-fit: cover;
+    }
+    @media (max-width: 767px) {
+        .carousel-img {
+            height: 220px;
+        }
+    }
+    .carousel-indicators [data-bs-target] {
+        background-color: rgba(255,255,255,0.6);
     }
     .carousel-indicators .active {
-        background: #fff;
+        background-color: #fff;
     }
-    .carousel-control {
-        background-image: none !important;
+    .carousel-control-prev,
+    .carousel-control-next {
         opacity: 0.8;
+        width: 8%;
     }
-    .carousel-control:hover {
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
         opacity: 1;
     }
-    .carousel-control .fa {
-        position: absolute;
-        top: 50%;
-        margin-top: -15px;
-        font-size: 30px;
-        color: #fff;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-    }
-    .carousel-control.left .fa {
-        left: 20px;
-    }
-    .carousel-control.right .fa {
-        right: 20px;
-    }
-       
-    /* Estilo para colores de stock */
-.badge-success { background-color: #28a745; }
-.badge-warning { background-color: #ffc107; }
-.badge-danger { background-color: #dc3545; }
-
-    /*== Block policy ==*/
-    .block-policy4 {
-        border: 1px solid #ebebeb;
-        border-radius: 3px;
-        padding: 13px 0 16px 0;
-        margin: 40px 0;
-        display: inline-block;
-        width: 100%;
-    }
-
-    .block-policy4 ul li {
-        float: left;
-        padding: 0 15px;
-        text-align: center;
-        width: 20%;
-        position: relative;
-    }
-
-    .block-policy4 ul li:before {
-        background: #ebebeb none repeat scroll 0 0;
-        content: "";
-        height: 50px;
-        position: absolute;
-        right: 0;
-        top: 3px;
-        width: 1px;
-    }
-
-    .block-policy4 ul li:last-child:before {
-        display: none;
-    }
-
-    .block-policy4 ul li .item-inner {
-        display: inline-block;
-    }
-
-    .block-policy4 ul li .item-inner .icon {
-        width: 60px;
-        height: 52px;
-        float: left;
-        margin-right: 10px;
-    }
-
-    .block-policy4 ul li .item-inner .content {
-        float: left;
-        text-align: left;
-        margin-top: 6px;
-    }
-
-    .block-policy4 ul li .item-inner .content a {
-        color: #333;
-        font-weight: 700;
-        font-size: 16px;
-    }
-
-    .block-policy4 ul li .item-inner .content a:hover {
-        color: #2677e7;
-    }
-
-    .block-policy4 ul li .item-inner .content p {
-        line-height: 100%;
-        margin-top: 5px;
-        margin: 0;
-        text-transform: capitalize;
-        font-size: 14px;
-    }
-
-    .block-policy4 ul li:last-child .item-inner:before {
-        display: none;
-    }
-
-    .layout-4 .block-policy4,
-    .layout-4 .banners7,
-    .layout-4 .banner-8,
-    .layout-4 .single-baner {
-        display: none;
-    }
-    /* Estilo para el ribbon */
-/* Estilo mejorado para el ribbon */
-.ribbon {
-  position: absolute;
-  right: -5px;
-  top: -5px;
-  z-index: 1;
-  overflow: hidden;
-  width: 93px;
-  height: 93px;
-  text-align: right;
-}
-.ribbon span {
-  font-size: 0.9rem;
-  color: #fff;
-  text-transform: uppercase;
-  text-align: center;
-  font-weight: bold;
-  line-height: 32px;
-  transform: rotate(45deg);
-  width: 125px;
-  display: block;
-  background: #79a70a;
-  background: linear-gradient(#9bc90d 0%, #79a70a 100%);
-  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
-  position: absolute;
-  top: 17px; 
-  right: -29px; 
-}
-
-.ribbon span::before {
-   content: '';
-   position: absolute; 
-   left: 0px; top: 100%;
-   z-index: -1;
-   border-left: 3px solid #79A70A;
-   border-right: 3px solid transparent;
-   border-bottom: 3px solid transparent;
-   border-top: 3px solid #79A70A;
-}
-.ribbon span::after {
-   content: '';
-   position: absolute; 
-   right: 0%; top: 100%;
-   z-index: -1;
-   border-right: 3px solid #79A70A;
-   border-left: 3px solid transparent;
-   border-bottom: 3px solid transparent;
-   border-top: 3px solid #79A70A;
-}
-
-.red span {
-  background: linear-gradient(#f70505 0%, #8f0808 100%);
-}
-.red span::before {
-  border-left-color: #8f0808;
-  border-top-color: #8f0808;
-}
-.red span::after {
-  border-right-color: #8f0808;
-  border-top-color: #8f0808;
-}
-
-.yellow  span {
-    background: linear-gradient(#ffc107 0%, #ffc10d 100%);
-}
-.yellow  span::before {
-  border-left-color: #ffc107;
-  border-top-color: #ffc107;
-}
-.yellow  span::after {
-  border-right-color: #ffc107;
-  border-top-color: #ffc107;
-}
-
-.foo {
-  clear: both;
-}
-
-.bar {
-  content: "";
-  left: 0px;
-  top: 100%;
-  z-index: -1;
-  border-left: 3px solid #79a70a;
-  border-right: 3px solid transparent;
-  border-bottom: 3px solid transparent;
-  border-top: 3px solid #79a70a;
-}
-
-.baz {
-  font-size: 1rem;
-  color: #fff;
-  text-transform: uppercase;
-  text-align: center;
-  font-weight: bold;
-  line-height: 2em;
-  transform: rotate(45deg);
-  width: 100px;
-  display: block;
-  background: #79a70a;
-  background: linear-gradient(#9bc90d 0%, #79a70a 100%);
-  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
-  position: absolute;
-  top: 100px;
-  left: 1000px;
-}
 /* Estilo adicional para deshabilitar la redirección */
 .product-card.disabled {
     pointer-events: none;

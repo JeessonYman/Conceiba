@@ -89,4 +89,7 @@ function getCart(){
 <!-- ========================================== -->
 <!-- M.A.R.I.A - SISTEMA DE IA CON VOZ -->
 <!-- ========================================== -->
+<!-- Toast Alerts glass -->
+<script src="js/toast-alerts.js"></script>
+
 <?php include 'includes/maria_interface.php'; ?>

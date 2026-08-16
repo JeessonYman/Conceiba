@@ -183,7 +183,7 @@ body.dark-mode .error-message {
 }
 </style>
 </head>
-<body class="hold-transition skin-green layout-top-nav">
+<body class="">
 <div class="wrapper">
 
     <?php include 'includes/navbar.php'; ?>
